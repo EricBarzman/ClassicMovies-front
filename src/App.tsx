@@ -4,8 +4,9 @@ import Header from "./components/Header/Header"
 import About from "./pages/About/About"
 import Terms_of_use from "./pages/TermsOfUse/TermsOfUse"
 import { useUser } from "@clerk/clerk-react"
-import Login from "./components/Login/Login"
+import Login from "./components/Auth/Login/Login"
 import { useEffect } from "react"
+import Signup from "./components/Auth/Signup/Signup"
 
 function App() {
 
@@ -14,7 +15,7 @@ function App() {
   const { user, isLoaded } = useUser();
 
   useEffect(() => {
-    if (!user || !isLoaded) navigate("/login");
+    if (!isLoaded) navigate("/login");
   }, [isLoaded, navigate, user])
 
   return (
@@ -28,7 +29,7 @@ function App() {
           <Routes>
             <Route path="/" element={<div>Home</div>} />
             <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<div>Home</div>} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/my-account" element={<div>Home</div>} />
             <Route path="/my-favorites" element={<div>Home</div>} />
             <Route path="/search" element={<div>Home</div>} />
