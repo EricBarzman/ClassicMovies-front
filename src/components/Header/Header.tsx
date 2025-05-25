@@ -1,4 +1,4 @@
-import { useClerk, UserButton } from "@clerk/clerk-react"
+import { useClerk } from "@clerk/clerk-react"
 import { Link, useNavigate } from "react-router-dom"
 
 function Header() {
@@ -7,7 +7,7 @@ function Header() {
   const { signOut } = useClerk();
   const handleSignOut = () => {
     signOut(() => {
-      navigate("/sign-in");
+      navigate("/login");
     });
   };
   
@@ -51,7 +51,6 @@ function Header() {
           <div className="mr-8">Search</div>
 
           <div className="mr-12">
-            <UserButton />
             <button onClick={handleSignOut}>Sign out</button>
             {/* <Link to='/my-account'>
               <img src="" className="w-[50px] h-[50px]" alt="avatar" />

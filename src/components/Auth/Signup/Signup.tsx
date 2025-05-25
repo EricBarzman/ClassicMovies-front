@@ -1,88 +1,110 @@
 // React
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 
 // Clerk
-import { useSignUp } from "@clerk/clerk-react";
-
-// Zod
-import type { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema } from "../../../schemas/signup.schema";
+import { useSignUp, useUser } from "@clerk/clerk-react";
 
 // HeroUI
 import { Button } from "@heroui/button";
-
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 
+import { avatars } from "../avatar";
 
 
-// const avatars = [
-//   {
-//     id: 1,
-//     get_image: "./avatars/kubrick.jpg"
-//   },
-//   {
-//     id: 2,
-//     get_image: "./avatars/varda-agnes.jpg"
-//   },
-//   {
-//     id: 3,
-//     get_image: "./avatars/John-Ford.webp"
-//   }
-// ]
+type FormDataProp = {
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  avatar: number | null;
+}
+
+const defaultFormData: FormDataProp = {
+  email: "",
+  password: "",
+  passwordConfirmation: "",
+  avatar: null,
+}
 
 
+function Signup() {
 
-const Signup = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { signUp, isLoaded } = useSignUp();
+  const { signUp } = useSignUp();
+  const { user } = useUser();
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: zodResolver(signupSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      passwordConfirmation: "",
-    }
-  });
+  const [formData, setFormData] = useState<FormDataProp>(defaultFormData);
 
-  async function onSubmit(data: z.infer<typeof signupSchema>) {
-    // if (!isLoaded) return;
-    // setIsSubmitting(true);
-    // setAuthError(null);
-    console.log(data);
+  // Change le titre de la page, reset la form
+  useEffect(() => {
+    if (user) navigate("/");
+    document.title = `Connection | Classic Movies`;
+    setFormData(defaultFormData);
+    setIsSubmitting(false);
+  }, [])
+
+  // Changement du form
+  function handleChange(e: any) {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  }
+
+  // Changement d'avatar
+  function handleAvatarClick(e: any) {
+    setFormData({
+      ...formData,
+      avatar: Number(e.currentTarget.id)
+    });
+  }
+
+  // Submit
+  async function handleSubmit(e: any) {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setAuthError(null);
+
+    // Gestion d'erreurs
+    if (formData.email === '') setAuthError('You did not write an email!');
+    if (formData.password.length < 8 || formData.password === '') setAuthError('Password must be 8 characters long.');
+    if (formData.password !== formData.passwordConfirmation) setAuthError('Both passwords must be the same.');
     
+    if (formData.avatar === null) setAuthError('You did not choose an avatar!');
 
-    // try {
-    //   await signUp.create({
-    //     emailAddress: data.email,
-    //     password: data.password,
-    //   });
-    //   await signUp.prepareEmailAddressVerification({
-    //     strategy: "email_code",
-    //   });
-    //   // navigate("/browse");
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // } catch (error: any) {
-    //   setAuthError(error.errors?.[0]?.message || "An error occured.")
-    //   setIsSubmitting(false);
-    // }
+    if (authError) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      await signUp!.create({
+        emailAddress: formData.email,
+        password: formData.password,
+      });
+      
+      if (signUp?.status === 'complete') {
+        setIsSubmitting(false);
+        navigate("/browse");
+      }
+    } catch (error: any) {
+      setAuthError(error.errors?.[0]?.message || "An error occured.")
+      setIsSubmitting(false);
+    }
   }
 
   return (
     <div className="p-12 w-3/4 mx-auto">
+
       <h2 className="text-4xl mt-10 mb-10 text-center font-semibold uppercase">
         Create your profile
       </h2>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-
+      <form onSubmit={handleSubmit}>
         <div className='flex flex-col mx-auto w-1/3'>
 
           {authError && (
@@ -93,31 +115,28 @@ const Signup = () => {
           )}
 
           <input
-            id="email"
-            type="text"
+            name="email"
+            type="email"
             className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
             placeholder='Your email...'
-            {...register("email")}
+            onChange={handleChange}
           />
-          {errors.email ? <p className="mb-4">{errors.email?.message}</p> : ""}
 
           <input
-            id="password"
+            name="password"
             type={showPassword ? "text" : "password"}
             className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
             placeholder='Your password...'
-            {...register("password")}
+            onChange={handleChange}
           />
-          {errors.password ? <p className="mb-4">{errors.password?.message}</p> : ""}
 
           <input
-            id="passwordConfirmation"
+            name="passwordConfirmation"
             type={showPassword ? "text" : "password"}
             className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
             placeholder='Confirm your password...'
-            {...register("passwordConfirmation")}
+            onChange={handleChange}
           />
-          {errors.passwordConfirmation ? <p className="mb-4">{errors.passwordConfirmation?.message}</p> : ""}
 
           <Button
             className="flex justify-end"
@@ -144,22 +163,23 @@ const Signup = () => {
 
         </div>
 
-        {/* <div {...register("avatar")} className='flex flex-row'>
-        {avatars.map((avatar) => (
-          <option
-            value={avatar.id}
-            key={avatar.id}
-            className='m-4 hover:rounded-sm hover:border-primary hover:border-2 focus:border-primary focus:border-2'
-          >
-            {avatar.id}
-            <img
-              className="w-[250px] h-[120px]"
-              src={avatar.get_image}
-              alt="avatar"
-            />
-          </option>
-        ))}
-      </div> */}
+        <div className="flex flex-row">
+          {avatars.map((avatar) => (
+            <div
+              id={avatar.id.toString()}
+              key={avatar.id}
+              onClick={handleAvatarClick}
+              className={`m-4 p-2 hover:border-primary hover:border-1 ${formData.avatar === avatar.id ? 'border-primary border-2' : ''}`}
+            >
+              <img
+                className="w-[250px] h-[120px]"
+                src={avatar.get_image}
+                alt="avatar"
+              />
+            </div>
+          ))}
+        </div>
+
       </form>
 
       <div className="text-gray-500 text-center mt-10">

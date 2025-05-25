@@ -1,10 +1,10 @@
 // React
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 // Clerk
-import { useSignIn } from "@clerk/clerk-react";
+import { useSignIn, useUser } from "@clerk/clerk-react";
 
 // Zod
 import type { z } from "zod";
@@ -23,6 +23,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { signIn, isLoaded, setActive } = useSignIn();
+  const { user } = useUser();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
@@ -32,11 +33,16 @@ const Login = () => {
     }
   });
 
+  useEffect(() => {
+    if (user) navigate('/'); 
+    document.title = `Connection | Classic Movies`;
+  }, [])
+
   async function onSubmit(data: z.infer<typeof loginSchema>) {
     if (!isLoaded) return;
     setIsSubmitting(true);
     setAuthError(null);
-    
+
     try {
       const result = await signIn.create({
         identifier: data.identifier,
