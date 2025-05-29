@@ -1,16 +1,16 @@
-import { useClerk } from "@clerk/clerk-react"
+import { signOut } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom"
 
 function Header() {
 
   const navigate = useNavigate();
-  const { signOut } = useClerk();
-  const handleSignOut = () => {
-    signOut(() => {
-      navigate("/login");
-    });
+
+  function handleSignOut () {
+    // signout from firebase
+    // delete user from redux
+    navigate("/login");
   };
-  
+
   return (
     <header className="max-w-screen py-6">
       <nav className="flex flex-wrap md:flex-nowrap items-center justify-between">

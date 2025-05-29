@@ -1,22 +1,26 @@
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom"
+
+import { useEffect } from "react"
+
+import Signup from "./components/Auth/Signup/Signup"
 import Footer from "./components/Footer/Footer"
 import Header from "./components/Header/Header"
+import Login from "./components/Auth/Login/Login"
+
 import About from "./pages/About/About"
 import Terms_of_use from "./pages/TermsOfUse/TermsOfUse"
-import { useUser } from "@clerk/clerk-react"
-import Login from "./components/Auth/Login/Login"
-import { useEffect } from "react"
-import Signup from "./components/Auth/Signup/Signup"
+import { useTypedSelector } from "./redux/redux.type"
 
 function App() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, isLoaded } = useUser();
-
+  const user = useTypedSelector((state) => state.user);
+  
+  // Redirect to login
   useEffect(() => {
-    if (!isLoaded) navigate("/login");
-  }, [isLoaded, navigate, user])
+    if (!user.token) navigate("/login");
+  }, [])
 
   return (
     <>

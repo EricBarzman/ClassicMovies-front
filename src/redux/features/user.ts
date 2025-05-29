@@ -3,22 +3,26 @@ import { createSlice } from "@reduxjs/toolkit";
 export const initialState = {
   logged: localStorage.getItem('token') ? true : false,
   token: localStorage.getItem('token') ?? '',
-  userName: localStorage.getItem('username') ?? '',
+  email: localStorage.getItem('email') ?? '',
 }
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateToken: (state, action) => {},
+    updateUser: (state, action) => {
+      state.logged = true;
+      state.email = action.payload.email;
+      state.token = action.payload.user.token;
+    },
+
     handleLogout: (state) => {
-      state.userName = "";
+      state.email = "";
       state.token = "";
       state.token = "";
     },
-    updateUserInfo: (state, action) => {},
   }
 });
 
-export const {updateToken, handleLogout, updateUserInfo } = userSlice.actions;  
+export const {updateUser, handleLogout } = userSlice.actions;  
 export default userSlice.reducer;

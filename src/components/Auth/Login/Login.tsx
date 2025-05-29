@@ -3,27 +3,30 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-// Clerk
-import { useSignIn, useUser } from "@clerk/clerk-react";
+import { useAuth } from "../../../firebase/auth";
 
 // Zod
 import type { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../../../schemas/login.schema";
 
-// HeroUI
+// UI
 import { Button } from "@heroui/button";
-
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
+import { useTypedSelector } from "../../../redux/redux.type";
+
+
 
 const Login = () => {
+
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const user = useTypedSelector(state => state.user);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { signIn, isLoaded, setActive } = useSignIn();
-  const { user } = useUser();
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
@@ -34,25 +37,19 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if (user) navigate('/'); 
-    document.title = `Connection | Classic Movies`;
+    if (user.logged) navigate('/');
+    else document.title = `Connection | Classic Movies`;
   }, [])
 
+
   async function onSubmit(data: z.infer<typeof loginSchema>) {
-    if (!isLoaded) return;
     setIsSubmitting(true);
     setAuthError(null);
 
     try {
-      const result = await signIn.create({
-        identifier: data.identifier,
-        password: data.password,
-      })
+      const result = await login(data.identifier, data.password);
+      if (result.user) navigate("/browse");
 
-      if (result.status === "complete") {
-        await setActive({ session: result.createdSessionId });
-        navigate("/browse");
-      }
       else {
         console.error("Sign in incomplete: ", result);
         setAuthError("There was an error. Please try again.");

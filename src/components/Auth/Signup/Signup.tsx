@@ -2,22 +2,18 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-// Clerk
-import { useSignUp, useUser } from "@clerk/clerk-react";
-
-// HeroUI
+// UI
 import { Button } from "@heroui/button";
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 
 import { avatars } from "../avatar";
+import { type FormDataProp } from "../../../types/auth.type";
 
+import { useAuth } from "../../../firebase/auth";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../../redux/features/user";
+import { useTypedSelector } from "../../../redux/redux.type";
 
-type FormDataProp = {
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-  avatar: number | null;
-}
 
 const defaultFormData: FormDataProp = {
   email: "",
@@ -26,22 +22,27 @@ const defaultFormData: FormDataProp = {
   avatar: null,
 }
 
-
 function Signup() {
 
   const navigate = useNavigate();
+  const { signup } = useAuth();
+  
+  // Gestion d'erreur
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { signUp } = useSignUp();
-  const { user } = useUser();
-
+  // Formulaire
   const [formData, setFormData] = useState<FormDataProp>(defaultFormData);
+
+  // Redux
+  const dispatch = useDispatch();
+  const user = useTypedSelector((state) => state.user);
+
 
   // Change le titre de la page, reset la form
   useEffect(() => {
-    if (user) navigate("/");
+    if (user.logged) navigate("/");
     document.title = `Connection | Classic Movies`;
     setFormData(defaultFormData);
     setIsSubmitting(false);
@@ -70,27 +71,33 @@ function Signup() {
     setAuthError(null);
 
     // Gestion d'erreurs
-    if (formData.email === '') setAuthError('You did not write an email!');
-    if (formData.password.length < 8 || formData.password === '') setAuthError('Password must be 8 characters long.');
-    if (formData.password !== formData.passwordConfirmation) setAuthError('Both passwords must be the same.');
-    
-    if (formData.avatar === null) setAuthError('You did not choose an avatar!');
+    if (formData.email === '')
+      setAuthError('You did not write an email!');
+    if (formData.password.length < 8 || formData.password === '')
+      setAuthError('Password must be 8 characters long.');
+    if (formData.password !== formData.passwordConfirmation)
+      setAuthError('Both passwords must be the same.');
+    if (formData.avatar === null)
+      setAuthError('You did not choose an avatar!');
 
     if (authError) {
       setIsSubmitting(false);
       return;
     }
 
+    console.log(formData);
+
     try {
-      await signUp!.create({
-        emailAddress: formData.email,
-        password: formData.password,
-      });
-      
-      if (signUp?.status === 'complete') {
+      const result = await signup(formData.email, formData.password);
+      if (result.user) {
+        dispatch(updateUser({
+          email: result.user.email,
+          token: result.user.getIdToken,
+        }));
         setIsSubmitting(false);
-        navigate("/browse");
+        navigate("/");
       }
+      
     } catch (error: any) {
       setAuthError(error.errors?.[0]?.message || "An error occured.")
       setIsSubmitting(false);
