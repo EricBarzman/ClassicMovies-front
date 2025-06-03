@@ -1,13 +1,18 @@
 import { signOut } from "firebase/auth";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom"
+import { handleLogout } from "../../redux/features/user";
+import { useAuth } from "../../firebase/auth";
 
 function Header() {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { logout } = useAuth();
 
-  function handleSignOut () {
-    // signout from firebase
-    // delete user from redux
+  async function handleSignOut () {
+    await logout();
+    dispatch(handleLogout());
     navigate("/login");
   };
 

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
+import { useDispatch } from "react-redux";
+
 import { useAuth } from "../../../firebase/auth";
 
 // Zod
@@ -14,19 +16,19 @@ import { loginSchema } from "../../../schemas/login.schema";
 import { Button } from "@heroui/button";
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useTypedSelector } from "../../../redux/redux.type";
-
+import { updateUser } from "../../../redux/features/user";
 
 
 const Login = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { login } = useAuth();
   const user = useTypedSelector(state => state.user);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
-
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
@@ -37,7 +39,7 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if (user.logged) navigate('/');
+    if (user.logged || user.token) navigate('/');
     else document.title = `Connection | Classic Movies`;
   }, [])
 
@@ -48,12 +50,17 @@ const Login = () => {
 
     try {
       const result = await login(data.identifier, data.password);
-      if (result.user) navigate("/browse");
-
-      else {
+      
+      if (!result.user) {
         console.error("Sign in incomplete: ", result);
         setAuthError("There was an error. Please try again.");
       }
+
+      dispatch(updateUser({
+        email: result.user.email,
+        token: await result.user.getIdToken(),
+      }));
+      navigate("/browse");
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

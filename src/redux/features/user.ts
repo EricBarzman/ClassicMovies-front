@@ -11,18 +11,28 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     updateUser: (state, action) => {
-      state.logged = true;
-      state.email = action.payload.email;
-      state.token = action.payload.user.token;
+      const { email, token } = action.payload;
+      localStorage.setItem('token', token)
+      localStorage.setItem('email', email)
+      return {
+        ...state,
+        logged: true,
+        email,
+        token,
+      }
     },
 
-    handleLogout: (state) => {
-      state.email = "";
-      state.token = "";
-      state.token = "";
+    handleLogout: () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('email');
+      return {
+        email: "",
+        token: "",
+        logged: false,
+      }
     },
   }
 });
 
-export const {updateUser, handleLogout } = userSlice.actions;  
+export const { updateUser, handleLogout } = userSlice.actions;
 export default userSlice.reducer;

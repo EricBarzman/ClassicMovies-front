@@ -1,5 +1,5 @@
 import {
-  DocumentData,
+  type DocumentData,
   Timestamp,
   addDoc,
   collection,

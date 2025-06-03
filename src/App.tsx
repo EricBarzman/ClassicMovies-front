@@ -10,6 +10,7 @@ import Login from "./components/Auth/Login/Login"
 import About from "./pages/About/About"
 import Terms_of_use from "./pages/TermsOfUse/TermsOfUse"
 import { useTypedSelector } from "./redux/redux.type"
+import Home from "./pages/Home/Home"
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
   
   // Redirect to login
   useEffect(() => {
-    if (!user.token) navigate("/login");
+    if (!user.token || !user.logged) navigate("/login");
   }, [])
 
   return (
@@ -31,7 +32,7 @@ function App() {
 
         <main className="min-h-screen">
           <Routes>
-            <Route path="/" element={<div>Home</div>} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/my-account" element={<div>Home</div>} />

@@ -85,14 +85,12 @@ function Signup() {
       return;
     }
 
-    console.log(formData);
-
     try {
       const result = await signup(formData.email, formData.password);
       if (result.user) {
         dispatch(updateUser({
           email: result.user.email,
-          token: result.user.getIdToken,
+          token: await result.user.getIdToken(),
         }));
         setIsSubmitting(false);
         navigate("/");

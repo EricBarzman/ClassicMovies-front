@@ -1,14 +1,22 @@
 
 export interface IDirector {
   id: number;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
+  countryId: string;
 }
 
 export interface IMovie {
   id: number;
   title: string;
-  genre: string;
+  slug: string;
+  genreId: string;
+  decadeChoice: string;
+  get_image: string;
+  keywords: string[];
+  shortDescription: string;
   year: number;
+  directorId: string;
   director: IDirector;
+  youtube_url: string;
 }
