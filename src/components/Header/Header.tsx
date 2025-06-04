@@ -1,8 +1,8 @@
-import { signOut } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom"
 import { handleLogout } from "../../redux/features/user";
 import { useAuth } from "../../firebase/auth";
+import { useTypedSelector } from "../../redux/redux.type";
 
 function Header() {
 
@@ -10,6 +10,11 @@ function Header() {
   const dispatch = useDispatch();
   const { logout } = useAuth();
 
+  const user = useTypedSelector(state => state.user);
+  // Récupère le path de l'image : parse le state redux avatar
+  // qui a été stringified, trouve la prop get_image dans l'objet
+  const avatarPath = JSON.parse(user.avatar).get_image;
+  
   async function handleSignOut () {
     await logout();
     dispatch(handleLogout());
@@ -55,11 +60,11 @@ function Header() {
         <div className="flex items-center">
           <div className="mr-8">Search</div>
 
-          <div className="mr-12">
-            <button onClick={handleSignOut}>Sign out</button>
-            {/* <Link to='/my-account'>
-              <img src="" className="w-[50px] h-[50px]" alt="avatar" />
-            </Link> */}
+          <div className="mr-12 flex">
+            <button className="mr-2" onClick={handleSignOut}>Sign out</button>
+            <Link to='/my-account'>
+              <img src={`./avatars/${avatarPath}`} className="w-[50px] h-[50px]" alt="avatar" />
+            </Link>
           </div>
 
         </div>

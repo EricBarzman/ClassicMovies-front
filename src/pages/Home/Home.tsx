@@ -31,35 +31,7 @@ function Home() {
     youtube_url: ""
   });
   
-  const [movies, setMovies] = useState<IMovie[]>([{
-    id: 0,
-    title: "",
-    slug: "",
-    genreId: "",
-    decadeChoice: "",
-    get_image: "",
-    keywords: [],
-    shortDescription: "",
-    year: 0,
-    directorId: "",
-    director: {
-      id: 0,
-      firstName: "",
-      lastName: "",
-      countryId: ""
-    },
-    youtube_url: ""
-  }]);
-
-  /* C'est ici qu'on voit les limites de Firebase
-  /  Impossible de sortir une entrée random de la base
-  */
-  function pickRandomMovie() {
-    const index = 
-    console.log(index);
-    
-    return movies[index];
-  }
+  const [movies, setMovies] = useState<IMovie[]>([]);
 
   const { getMoviesWithDirectorInfo } = useMovies();
 
@@ -75,17 +47,15 @@ function Home() {
   }, []);
 
   return (
-    <main className='text-white px-10 py-4'>
+    <main className='text-white px-10 py-4 relative'>
 
       <h2 className='mt-6 ml-10 mb-20 capitalize text-4xl font-semibold'>
-        Welcome back, {user.email}!
+        Welcome back, {user.username}!
       </h2>
 
       {randomMovie?.youtube_url && (
         <MovieVideo youtube_id={randomMovie?.youtube_url!} />
       )}
-      <MovieVideo youtube_id="zxq60I5RSW8"/>
-      
 
       <section className="flex flex-row flex-wrap mt-6">
         {movies.length > 0 && movies.map((movie) => (

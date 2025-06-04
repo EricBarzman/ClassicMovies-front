@@ -1,32 +1,36 @@
 // React
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-// UI
-import { Button } from "@heroui/button";
-import { AlertCircle, Eye, EyeOff } from "lucide-react";
-
-import { avatars } from "../avatar";
-import { type FormDataProp } from "../../../types/auth.type";
-
-import { useAuth } from "../../../firebase/auth";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../../redux/features/user";
 import { useTypedSelector } from "../../../redux/redux.type";
 
 
+// UI
+import { Button } from "@heroui/button";
+import { AlertCircle, Eye, EyeOff } from "lucide-react";
+
+import { type FormDataProp } from "../../../types/auth.type";
+
+import { useAuth } from "../../../firebase/auth";
+import { useAvatars, useUsersCollection } from "../../../firebase/users/userHook";
+import type { IAvatar } from "../../../types/user.type";
+
 const defaultFormData: FormDataProp = {
   email: "",
+  username: "",
   password: "",
   passwordConfirmation: "",
-  avatar: null,
+  avatarId: null,
 }
 
 function Signup() {
 
   const navigate = useNavigate();
   const { signup } = useAuth();
-  
+  const { createUser } = useUsersCollection();
+  const { getAvatars } = useAvatars();
+
   // Gestion d'erreur
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -34,6 +38,7 @@ function Signup() {
 
   // Formulaire
   const [formData, setFormData] = useState<FormDataProp>(defaultFormData);
+  const [avatars, setAvatars] = useState<IAvatar[]>([]);
 
   // Redux
   const dispatch = useDispatch();
@@ -44,6 +49,7 @@ function Signup() {
   useEffect(() => {
     if (user.logged) navigate("/");
     document.title = `Connection | Classic Movies`;
+    getAvatars().then(data => setAvatars(data));
     setFormData(defaultFormData);
     setIsSubmitting(false);
   }, [])
@@ -60,7 +66,7 @@ function Signup() {
   function handleAvatarClick(e: any) {
     setFormData({
       ...formData,
-      avatar: Number(e.currentTarget.id)
+      avatarId: Number(e.currentTarget.id)
     });
   }
 
@@ -77,7 +83,7 @@ function Signup() {
       setAuthError('Password must be 8 characters long.');
     if (formData.password !== formData.passwordConfirmation)
       setAuthError('Both passwords must be the same.');
-    if (formData.avatar === null)
+    if (formData.avatarId === null)
       setAuthError('You did not choose an avatar!');
 
     if (authError) {
@@ -86,16 +92,35 @@ function Signup() {
     }
 
     try {
+      // Signup in firebase auth
       const result = await signup(formData.email, formData.password);
-      if (result.user) {
-        dispatch(updateUser({
-          email: result.user.email,
-          token: await result.user.getIdToken(),
-        }));
+
+      if (!result.user) {
+        console.error("Sign up incomplete: ", result);
+        setAuthError("There was an error. Please try again.");
         setIsSubmitting(false);
-        navigate("/");
       }
-      
+
+      // Create a user in firebase db
+      const newUser = await createUser({
+        email: formData.email,
+        username: formData.username,
+        avatar: avatars.find(avatar => avatar.avatarId === formData.avatarId),
+        firebaseId: result.user.uid,
+      })
+
+      // Load info in redux
+      dispatch(updateUser({
+        email: result.user.email,
+        token: await result.user.getIdToken(),
+        username: newUser.username,
+        avatar: JSON.stringify(newUser.avatar),
+      }));
+
+      setIsSubmitting(false);
+      navigate("/");
+
+
     } catch (error: any) {
       setAuthError(error.errors?.[0]?.message || "An error occured.")
       setIsSubmitting(false);
@@ -124,6 +149,14 @@ function Signup() {
             type="email"
             className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
             placeholder='Your email...'
+            onChange={handleChange}
+          />
+
+          <input
+            name="username"
+            type="text"
+            className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
+            placeholder='Your username...'
             onChange={handleChange}
           />
 
@@ -171,14 +204,14 @@ function Signup() {
         <div className="flex flex-row">
           {avatars.map((avatar) => (
             <div
-              id={avatar.id.toString()}
-              key={avatar.id}
+              id={avatar.avatarId.toString()}
+              key={avatar.avatarId}
               onClick={handleAvatarClick}
-              className={`m-4 p-2 hover:border-primary hover:border-1 ${formData.avatar === avatar.id ? 'border-primary border-2' : ''}`}
+              className={`m-4 p-2 hover:border-primary hover:border-1 ${formData.avatarId === avatar.avatarId ? 'border-primary border-2' : ''}`}
             >
               <img
                 className="w-[250px] h-[120px]"
-                src={avatar.get_image}
+                src={`./avatars/${avatar.get_image}`}
                 alt="avatar"
               />
             </div>

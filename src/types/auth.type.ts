@@ -1,6 +1,7 @@
 export type FormDataProp = {
   email: string;
+  username: string;
   password: string;
   passwordConfirmation: string;
-  avatar: number | null;
+  avatarId: number | null;
 }
