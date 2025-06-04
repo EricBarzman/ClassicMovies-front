@@ -6,6 +6,11 @@ export interface IDirector {
   countryId: string;
 }
 
+interface Keyword {
+  id: string;
+  label: string;
+}
+
 export interface IMovie {
   id: number;
   title: string;
@@ -15,6 +20,7 @@ export interface IMovie {
   get_image: string;
   keywords: string[];
   shortDescription: string;
+  keywordsList: Keyword[];
   year: number;
   directorId: string;
   director: IDirector;

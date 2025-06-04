@@ -28,13 +28,24 @@ export function useMovies() {
       doc.data()
     ))
 
+    // Get keywords
+    const refKeywords = collection(db, 'keywords');
+    const snapKeywords = await getDocs(refKeywords);
+    const keywordsList = snapKeywords.docs.map(doc => Object.assign(
+      {},
+      { id: doc.id },
+      doc.data()
+    ))
+
     return snap.docs.map(doc => Object.assign(
       {},
       {
         id: doc.id,
-        director: directorList.find(director => director.id === doc.data().directorId)
+        director: directorList.find(director => director.id === doc.data().directorId),
+        keywordsList: keywordsList.filter(kword => doc.data().keywords.includes(kword.id))
       },
       doc.data(),
+
     ));
   };
 
@@ -57,7 +68,7 @@ export function useMovies() {
     const keywordsList = snapKeywords.docs.map(doc => Object.assign(
       {},
       { id: doc.id },
-      doc.data()
+      doc.data(),
     ))
 
     return {

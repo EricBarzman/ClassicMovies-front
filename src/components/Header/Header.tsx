@@ -22,7 +22,7 @@ function Header() {
   };
 
   return (
-    <header className="max-w-screen py-6">
+    <header className="max-w-screen z-2 bg-primary-bg py-2 px-8 sticky top-0 w-full">
       <nav className="flex flex-wrap md:flex-nowrap items-center justify-between">
 
         <div className="flex">
@@ -61,7 +61,8 @@ function Header() {
           <div className="mr-8">Search</div>
 
           <div className="mr-12 flex">
-            <button className="mr-2" onClick={handleSignOut}>Sign out</button>
+            <button className="mr-2 hover:cursor-pointer" onClick={handleSignOut}>Sign out</button>
+            {/* Avatar, lien vers mon compte */}
             <Link to='/my-account'>
               <img src={`./avatars/${avatarPath}`} className="w-[50px] h-[50px]" alt="avatar" />
             </Link>

@@ -25,7 +25,7 @@ function App() {
 
   return (
     <>
-      <div className="bg-primary-bg text-primary-text pl-12 w-full">
+      <div className="bg-primary-bg text-primary-text w-full">
 
         {/* Don't show Nav when login or signup */}
         {(location.pathname !== '/login' && location.pathname !== '/signup') ? <Header /> : null}
@@ -33,6 +33,7 @@ function App() {
         <main className="min-h-screen">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/browse" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/my-account" element={<div>Home</div>} />

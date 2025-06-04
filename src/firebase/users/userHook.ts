@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, Timestamp, updateDoc, type DocumentData } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, Timestamp, updateDoc, where, type DocumentData } from "firebase/firestore";
 import { db } from "../client";
 
 export function useUsersCollection() {
@@ -7,6 +7,13 @@ export function useUsersCollection() {
     const ref = doc(db, 'users', id);
     const snap = await getDoc(ref);
     return { ...snap.data(), id }
+  }
+
+  async function getUserByFirebaseId(firebaseId: string): Promise<DocumentData | undefined> {
+    const ref = collection(db, 'users')
+    const snap = await getDocs(
+      query(ref, where("firebaseId", "==", firebaseId)));
+    if (snap.docs) return { ...snap.docs[0].data(), id: snap.docs[0].id }
   }
 
   async function updateUser(id: string, data: DocumentData) {
@@ -35,7 +42,7 @@ export function useUsersCollection() {
     return deleteDoc(ref);
   }
 
-  return { getUser, createUser, updateUser, deleteUser }
+  return { getUser, createUser, updateUser, deleteUser, getUserByFirebaseId }
 }
 
 export function useAvatars() {

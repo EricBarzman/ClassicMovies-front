@@ -19,6 +19,7 @@ function Home() {
     decadeChoice: "",
     get_image: "",
     keywords: [],
+    keywordsList: [],
     shortDescription: "",
     year: 0,
     directorId: "",
@@ -30,7 +31,7 @@ function Home() {
     },
     youtube_url: ""
   });
-  
+
   const [movies, setMovies] = useState<IMovie[]>([]);
 
   const { getMoviesWithDirectorInfo } = useMovies();
@@ -40,11 +41,14 @@ function Home() {
     getMoviesWithDirectorInfo()
       .then(response => {
         setMovies(response);
-        // Pick a random index then a random film in the movies array
-        const newIndex = Math.round(Math.random() * response.length)
-        setRandomMovie(movies[newIndex]);
       })
   }, []);
+
+  useEffect(() => {
+    // Pick a random index then a random film in the movies array
+    const newIndex = Math.round(Math.random() * movies.length);
+    setRandomMovie(movies[newIndex]);
+  }, [movies])
 
   return (
     <main className='text-white px-10 py-4 relative'>

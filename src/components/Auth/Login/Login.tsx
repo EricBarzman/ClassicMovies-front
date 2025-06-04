@@ -17,6 +17,7 @@ import { Button } from "@heroui/button";
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useTypedSelector } from "../../../redux/redux.type";
 import { updateUser } from "../../../redux/features/user";
+import { useUsersCollection } from "../../../firebase/users/userHook";
 
 
 const Login = () => {
@@ -24,6 +25,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { login } = useAuth();
+  const { getUserByFirebaseId } = useUsersCollection();
   const user = useTypedSelector(state => state.user);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,8 +58,13 @@ const Login = () => {
         setAuthError("There was an error. Please try again.");
       }
 
+      const firebaseId = result.user.uid;
+      const userInfo = await getUserByFirebaseId(firebaseId);
+
       dispatch(updateUser({
         email: result.user.email,
+        username: userInfo?.username,
+        avatar: JSON.stringify(userInfo?.avatar),
         token: await result.user.getIdToken(),
       }));
       navigate("/browse");
