@@ -20,10 +20,10 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
     >
 
       {/* Video */}
-      <Link className='rounded-t-lg' to={'/movies/' + movie.slug}>
+      <Link className='rounded-t-lg' to={'/browse/movies/' + movie.id}>
         <img
           className='w-full rounded-t-3xl h-3/5'
-          src={`./assets/${movie.get_image}`}
+          src={`/assets/${movie.get_image}`}
           alt="movie image"
         />
       </Link>
@@ -33,21 +33,27 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
         
         {/* Options */}
         <div className='flex justify-between m-6'>
+
           <div className='flex flex-row justify-between items-center'>
-            <Link to={'/movies/' + movie.slug}>
+
+            <Link to={'/browse/movies/' + movie.id}>
               <FaPlay className='mr-6 text-2xl transition duration-75 hover:text-gray-400' />
             </Link>
+
             {!isFavorite && (
               <button className='hover:text-gray-400 text-3xl hover:cursor-pointer' onClick={addToMyFavorites}>
                 <IoIosAddCircleOutline />
               </button>
             )}
+
             {/* {isFavorite && (
               <button onClick={removeFromMyFavorites}>
                 <MdFavorite className='fill-primary' />
               </button>
             )} */}
+            
           </div>
+
         </div>
 
         <h2 className='font-semibold'>{movie.title}</h2>

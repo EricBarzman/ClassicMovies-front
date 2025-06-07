@@ -11,13 +11,17 @@ import About from "./pages/About/About"
 import Terms_of_use from "./pages/TermsOfUse/TermsOfUse"
 import { useTypedSelector } from "./redux/redux.type"
 import Home from "./pages/Home/Home"
+import MoviePage from "./pages/Movie/MoviePage"
+import Privacy from "./pages/Privacy/Privacy"
+import ContactUs from "./pages/ContactUs/ContactUs"
+import AllMoviesPage from "./pages/AllMoviesPage/AllMoviesPage"
 
 function App() {
 
   const navigate = useNavigate();
   const location = useLocation();
   const user = useTypedSelector((state) => state.user);
-  
+
   // Redirect to login
   useEffect(() => {
     if (!user.token || !user.logged) navigate("/login");
@@ -39,15 +43,17 @@ function App() {
             <Route path="/my-account" element={<div>Home</div>} />
             <Route path="/my-favorites" element={<div>Home</div>} />
             <Route path="/search" element={<div>Home</div>} />
-            <Route path="/browse/movies" element={<div>Home</div>} />
-            <Route path="/browse/movies/:movie_slug" element={<div>Home</div>} />
+            <Route path="/browse/movies" element={<AllMoviesPage />} />
+            <Route path="/browse/movies/:movie_id" element={<MoviePage />} />
             <Route path="/browse/genre" element={<div>Home</div>} />
             <Route path="/browse/popular" element={<div>Home</div>} />
             <Route path="/my-list" element={<div>Home</div>} />
+
             <Route path="/about" element={<About />} />
-            <Route path="/privacy" element={<div>Privacy</div>} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms-of-use" element={<Terms_of_use />} />
-            <Route path="/contact-us" element={<div>Contact</div>} />
+            <Route path="/contact-us" element={<ContactUs />} />
+
           </Routes>
         </main>
 

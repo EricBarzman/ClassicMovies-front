@@ -40,7 +40,7 @@ function Home() {
     document.title = 'Home | Classic Movies';
     getMoviesWithDirectorInfo()
       .then(response => {
-        setMovies(response);
+        setMovies(response.slice(0, 5));
       })
   }, []);
 

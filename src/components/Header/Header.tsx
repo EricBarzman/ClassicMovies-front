@@ -28,7 +28,7 @@ function Header() {
         <div className="flex">
           {/* Logo */}
           <Link to="/browse">
-            <img src="logo.jpeg" alt="Logo" width={80} height={80} />
+            <img src="/logo.jpeg" alt="Logo" width={80} height={80} />
           </Link>
 
           {/* Options */}
@@ -38,7 +38,7 @@ function Header() {
               <Link to='/'>Home</Link>
             </li>
             <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
-              <Link to='/movies'>Movies</Link>
+              <Link to='/browse/movies'>Movies</Link>
             </li>
 
             <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
@@ -64,7 +64,7 @@ function Header() {
             <button className="mr-2 hover:cursor-pointer" onClick={handleSignOut}>Sign out</button>
             {/* Avatar, lien vers mon compte */}
             <Link to='/my-account'>
-              <img src={`./avatars/${avatarPath}`} className="w-[50px] h-[50px]" alt="avatar" />
+              <img src={`/avatars/${avatarPath}`} className="w-[50px] h-[50px]" alt="avatar" />
             </Link>
           </div>
 

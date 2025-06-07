@@ -4,6 +4,7 @@ function About() {
 
   useEffect(() => {
     document.title = 'About | Classic Movies';
+    window.scrollTo(0, 0);
   }, [])
 
   return (
