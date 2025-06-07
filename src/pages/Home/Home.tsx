@@ -39,9 +39,7 @@ function Home() {
   useEffect(() => {
     document.title = 'Home | Classic Movies';
     getMoviesWithDirectorInfo()
-      .then(response => {
-        setMovies(response.slice(0, 5));
-      })
+      .then(response => setMovies(response.slice(0, 5)))
   }, []);
 
   useEffect(() => {

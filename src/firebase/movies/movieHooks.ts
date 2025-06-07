@@ -12,6 +12,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../client";
 
+import {type IMovie } from "../../types/movie.type"
+
 
 export function useMovies() {
 
@@ -34,7 +36,7 @@ export function useMovies() {
     const keywordsList = snapKeywords.docs.map(doc => Object.assign(
       {},
       { id: doc.id },
-      doc.data()
+      doc.data() as IMovie
     ))
 
     return snap.docs.map(doc => Object.assign(
@@ -44,8 +46,7 @@ export function useMovies() {
         director: directorList.find(director => director.id === doc.data().directorId),
         keywordsList: keywordsList.filter(kword => doc.data().keywords.includes(kword.id))
       },
-      doc.data(),
-
+      doc.data() as IMovie,
     ));
   };
 
@@ -68,7 +69,7 @@ export function useMovies() {
     const keywordsList = snapKeywords.docs.map(doc => Object.assign(
       {},
       { id: doc.id },
-      doc.data(),
+      doc.data() as IMovie,
     ))
 
     return {
