@@ -13,13 +13,13 @@ function MovieCard({ movie }: { movie: IMovie }) {
 
   return (
     <>
-      <MoviePreviewCard isShown={showModal} movie={movie} />
-      
       <article
         className='w-[245px] relative mx-1 mb-6'
-        onMouseEnter={() => setTimeout(toggleModal, 500)}
-        onMouseLeave={() => setTimeout(toggleModal, 300)}
+        onMouseEnter={() => toggleModal()}
+        onMouseLeave={() => toggleModal()}
       >
+        {showModal && <MoviePreviewCard isShown={showModal} movie={movie} />}
+
         <Link to={'/movies/' + movie.slug}>
           <img className='rounded-lg' src={`./assets/${movie.get_image}`} alt="movie image" />
         </Link>
