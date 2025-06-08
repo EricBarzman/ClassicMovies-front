@@ -114,7 +114,7 @@ function Signup() {
         email: result.user.email,
         token: await result.user.getIdToken(),
         username: newUser.username,
-        avatar: JSON.stringify(newUser.avatar),
+        avatar: newUser.avatar.get_image,
       }));
 
       setIsSubmitting(false);

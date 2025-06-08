@@ -17,11 +17,9 @@ function AllMoviesPage() {
       .then(response => setMovies(response))
   }, []);
 
-  console.log(movies[0])
-
   return (
     <main className='text-white px-10 py-4 relative'>
-      <section className="flex flex-row flex-wrap mt-15">
+      <section className="flex flex-row flex-wrap mt-36">
 
         {movies.length > 0 && movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />

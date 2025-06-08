@@ -7,22 +7,20 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 // A supprimer !
 const isFavorite = false;
 
-function addToMyFavorites() {
-  console.log("added");
-}
+function addToMyFavorites() {}
 
 function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
   return (
     <div
       className={`shadow-lg shadow-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-1
-         bg-primary-bg transition-opacity duration-600 opacity-0 hover:opacity-100 hover:w-[400px]
+         bg-primary-bg transition-opacity duration-600 opacity-0 hover:opacity-100 w-[400px]
           rounded-2xl rounded-t-3xl`}
     >
 
       {/* Video */}
       <Link className='rounded-t-lg' to={'/browse/movies/' + movie.id}>
         <img
-          className='w-full rounded-t-3xl h-3/5'
+          className='w-full rounded-t-3xl'
           src={`/assets/${movie.get_image}`}
           alt="movie image"
         />
@@ -63,7 +61,7 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
         </p>
         <ul className='m-4 flex'>
           {movie.keywordsList.map((keyword, index, arr) => (
-            <li className=''>
+            <li key={index} className=''>
               {keyword.label}{index !== (arr.length - 1) && (<span className='mx-1'>{` - `}</span>)}
             </li>
           ))}

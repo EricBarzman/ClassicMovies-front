@@ -1,6 +1,7 @@
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom"
 
 import { useEffect } from "react"
+import { useTypedSelector } from "./redux/redux.type"
 
 import Signup from "./components/Auth/Signup/Signup"
 import Footer from "./components/Footer/Footer"
@@ -9,7 +10,6 @@ import Login from "./components/Auth/Login/Login"
 
 import About from "./pages/About/About"
 import Terms_of_use from "./pages/TermsOfUse/TermsOfUse"
-import { useTypedSelector } from "./redux/redux.type"
 import Home from "./pages/Home/Home"
 import MoviePage from "./pages/Movie/MoviePage"
 import Privacy from "./pages/Privacy/Privacy"

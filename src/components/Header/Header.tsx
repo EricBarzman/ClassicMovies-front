@@ -13,7 +13,7 @@ function Header() {
   const user = useTypedSelector(state => state.user);
   // Récupère le path de l'image : parse le state redux avatar
   // qui a été stringified, trouve la prop get_image dans l'objet
-  const avatarPath = JSON.parse(user.avatar).get_image;
+  const avatarPath = user.avatar;
   
   async function handleSignOut () {
     await logout();

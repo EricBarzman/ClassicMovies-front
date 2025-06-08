@@ -64,7 +64,7 @@ const Login = () => {
       dispatch(updateUser({
         email: result.user.email,
         username: userInfo?.username,
-        avatar: JSON.stringify(userInfo?.avatar),
+        avatar: userInfo?.avatar.get_image,
         token: await result.user.getIdToken(),
       }));
       navigate("/browse");
