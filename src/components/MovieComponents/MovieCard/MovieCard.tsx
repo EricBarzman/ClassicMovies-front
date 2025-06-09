@@ -20,7 +20,7 @@ function MovieCard({ movie }: { movie: IMovie }) {
       >
         {showModal && <MoviePreviewCard isShown={showModal} movie={movie} />}
 
-        <Link to={'/browse/movies/' + movie.id}>
+        <Link to={'/parcourir/films/' + movie.id}>
           <img className='rounded-lg' src={`/assets/${movie.get_image}`} alt="movie image" />
         </Link>
 

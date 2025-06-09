@@ -3,6 +3,7 @@ import MovieCard from '../../components/MovieComponents/MovieCard/MovieCard'
 import { IMovie } from '../../types/movie.type'
 import { useMovies } from '../../firebase/movies/movieHooks';
 import { useTypedSelector } from '../../redux/redux.type';
+import MoviesList from '../../components/MovieComponents/MoviesList/MoviesList';
 
 function Favoris() {
 
@@ -22,17 +23,7 @@ function Favoris() {
 
   return (
     <main className='text-white px-10 py-4 relative'>
-      <section className="flex flex-row flex-wrap mt-36">
-
-        {favoriteMovies.length > 0 && favoriteMovies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-
-        {favoriteMovies.length == 0 && (
-          <p className="h-screen">Aucun favoris trouvé.</p>
-        )}
-
-      </section>
+      <MoviesList movies={favoriteMovies} />
     </main>
   )
 }

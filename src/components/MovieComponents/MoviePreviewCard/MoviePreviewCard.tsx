@@ -1,49 +1,18 @@
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
 
 import type { IMovie } from '../../../types/movie.type'
 import { useTypedSelector } from '../../../redux/redux.type';
-import { useFavorites } from '../../../firebase/users/userHook';
 
 import { FaPlay } from 'react-icons/fa'
-import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
-
-
-import toast from 'react-hot-toast';
+import AddToFavoriteButton from '../AddToFavoriteButton/AddToFavoriteButton';
+import RemoveFromFavoriteButton from '../RemoveFromFavoriteButton/RemoveFromFavoriteButton';
 
 
 function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
 
-  const { addToFavorites, deleteFromFavorites } = useFavorites();
-
-  const user = useTypedSelector(state => state.user);
   const favorites = useTypedSelector(state => state.favorites.mesFavoris);
   const favoriteFound = favorites.find(fav => fav.movieId === movie.id); 
   const isFavorite = favoriteFound !== undefined; 
-
-  const dispatch = useDispatch();
-
-  async function addToMyFavorites() {
-    try {
-      await addToFavorites({
-        movieId: movie.id,
-        userId: user.userId,
-      });
-      dispatch({ type: 'FETCH_FAVORITES' });
-      toast("Ajouté à vos favoris !");
-
-    } catch (error) {
-      toast.error("Une erreur s'est produite. Réessayez")
-      console.error("Impossible d'ajouter aux favoris: ", error);
-    }
-  }
-
-  async function removeFromMyFavorites() {
-    await deleteFromFavorites(favoriteFound!.id);
-    dispatch({ type: 'FETCH_FAVORITES' });
-    toast("Retiré de vos favoris !");
-  }
-
 
   return (
     <div
@@ -53,7 +22,7 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
     >
 
       {/* Video */}
-      <Link className='rounded-t-lg' to={'/browse/movies/' + movie.id}>
+      <Link className='rounded-t-lg' to={'/parcourir/films/' + movie.id}>
         <img
           className='w-full rounded-t-3xl'
           src={`/assets/${movie.get_image}`}
@@ -74,15 +43,11 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
             </Link>
 
             {!isFavorite && (
-              <button className='hover:text-gray-400 text-3xl hover:cursor-pointer' onClick={addToMyFavorites}>
-                <IoIosAddCircleOutline />
-              </button>
+              <AddToFavoriteButton movieId={movie.id} />
             )}
 
             {isFavorite && (
-              <button className='hover:text-gray-600 text-gray-500 text-3xl hover:cursor-pointer' onClick={removeFromMyFavorites}>
-                <IoIosRemoveCircleOutline />
-              </button>
+              <RemoveFromFavoriteButton favoriteId={favoriteFound.id} />
             )}
 
           </div>

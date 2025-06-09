@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../client";
 
-import {type IMovie } from "../../types/movie.type"
+import {IGenre, ISingleMovieWithAllInfo, type IMovie } from "../../types/movie.type"
 
 
 export function useMovies() {
@@ -88,7 +88,7 @@ export function useMovies() {
         ...genre.data()
       },
       keywordsList: keywordsList.filter(kword => snap.data()!.keywords.includes(kword.id))
-    }
+    } as unknown as ISingleMovieWithAllInfo
   };
 
   const createMovie = async (data: DocumentData) => {

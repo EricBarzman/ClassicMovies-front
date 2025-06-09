@@ -4,15 +4,17 @@ import { useTypedSelector } from "../../redux/redux.type"
 
 import type { IMovie } from "../../types/movie.type"
 import { useMovies } from "../../firebase/movies/movieHooks"
+import { shuffleArr } from "../../utils/shuffleArray";
 
 import MovieVideo from "../../components/MovieComponents/MovieVideo/MovieVideo"
 import MovieCard from "../../components/MovieComponents/MovieCard/MovieCard"
+import MoviesList from "../../components/MovieComponents/MoviesList/MoviesList";
 
 function Home() {
 
   const user = useTypedSelector((state) => state.user)
   const [randomMovie, setRandomMovie] = useState<IMovie>({
-    id: 0,
+    id: "",
     title: "",
     slug: "",
     genreId: "",
@@ -40,7 +42,10 @@ function Home() {
     window.scroll(0, 0);
     document.title = 'Accueil | Classic Movies';
     getMoviesWithDirectorInfo()
-      .then(response => setMovies(response.slice(0, 5)))
+      .then(response => {
+        shuffleArr(response);
+        setMovies(response.slice(0, 5))
+      })
   }, []);
 
   useEffect(() => {
@@ -60,14 +65,7 @@ function Home() {
         <MovieVideo youtube_id={randomMovie?.youtube_url!} />
       )}
 
-      <section className="flex flex-row flex-wrap mt-6">
-        {movies.length > 0 && movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-        {movies.length == 0 && (
-          <p className="h-screen">Aucun résult trouvé.</p>
-        )}
-      </section>
+      <MoviesList movies={movies} />
 
     </main>
   )

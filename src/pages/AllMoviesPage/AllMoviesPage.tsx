@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import type { IMovie } from "../../types/movie.type"
 
 import { useMovies } from "../../firebase/movies/movieHooks"
-import MovieCard from "../../components/MovieComponents/MovieCard/MovieCard"
+import MoviesList from "../../components/MovieComponents/MoviesList/MoviesList"
 
 function AllMoviesPage() {
 
@@ -20,17 +20,9 @@ function AllMoviesPage() {
 
   return (
     <main className='text-white px-10 py-4 relative'>
-      <section className="flex flex-row flex-wrap mt-36">
 
-        {movies.length > 0 && movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-
-        {movies.length == 0 && (
-          <p className="h-screen">Aucun résult trouvé.</p>
-        )}
-
-      </section>
+      <h2 className="text-2xl mt-12 ml-4 font-bold">Un catalogue inépuisable !</h2>
+      <MoviesList movies={movies} />
     </main>
   )
 }

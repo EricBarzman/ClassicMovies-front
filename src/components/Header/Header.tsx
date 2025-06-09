@@ -45,9 +45,9 @@ function Header() {
               <Link to='/parcourir/genres'>Genres</Link>
             </li>
 
-            <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
+            {/* <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
               <Link to='/parcourir/populaires'>Populaires</Link>
-            </li>
+            </li> */}
 
             <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
               <Link to='/mes-favoris'>Favoris</Link>
@@ -58,7 +58,7 @@ function Header() {
 
 
         <div className="flex items-center">
-          <div className="mr-8">Chercher...</div>
+          {/* <div className="mr-8">Chercher...</div> */}
 
           <div className="mr-12 flex">
             <button className="mr-2 hover:cursor-pointer" onClick={handleSignOut}>Déconnexion</button>

@@ -17,6 +17,7 @@ import ContactUs from "./pages/ContactUs/ContactUs"
 import AllMoviesPage from "./pages/AllMoviesPage/AllMoviesPage"
 import { useDispatch } from "react-redux"
 import Favoris from "./pages/Favoris/Favoris"
+import Genre from "./pages/Genres/Genre"
 
 function App() {
 
@@ -49,7 +50,7 @@ function App() {
             <Route path="/chercher" element={<div>Home</div>} />
             <Route path="/parcourir/films" element={<AllMoviesPage />} />
             <Route path="/parcourir/films/:movie_id" element={<MoviePage />} />
-            <Route path="/parcourir/genres" element={<div>Home</div>} />
+            <Route path="/parcourir/genres" element={<Genre />} />
             <Route path="/parcourir/populaires" element={<div>Home</div>} />
             
             <Route path="/a-propos" element={<About />} />

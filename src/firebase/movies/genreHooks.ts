@@ -12,6 +12,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../client";
+import { IGenre } from "../../types/movie.type";
 
 
 export function useGenres() {
@@ -21,13 +22,13 @@ export function useGenres() {
     const snap = await getDocs(
       query(ref, orderBy('label'))
     );
-    return snap.docs.map(doc => Object.assign({}, { id: doc.id }, doc.data()));
+    return snap.docs.map(doc => Object.assign({}, { id: doc.id }, doc.data() as IGenre));
   };
 
   const getGenreById = async (id: string) => {
     const ref = doc(db, 'genres', id);
     const snap = await getDoc(ref);
-    return { ...snap.data(), id }
+    return { ...snap.data() as IGenre, id }
   };
 
   const createGenre = async (data: DocumentData) => {
