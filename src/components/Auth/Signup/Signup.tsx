@@ -117,7 +117,7 @@ function Signup() {
         avatar: newUser.avatar.get_image,
         userId: result.user.uid,
       }));
-      
+      dispatch({ type: 'FETCH_FAVORITES' });
       setIsSubmitting(false);
       navigate("/");
 

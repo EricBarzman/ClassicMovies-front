@@ -10,7 +10,7 @@ function MoviesList({ movies } : { movies : IMovie[]}) {
       ))}
 
       {movies.length == 0 && (
-        <p className="h-screen">Aucun résult trouvé.</p>
+        <p className="h-screen">Aucun film trouvé.</p>
       )}
 
     </section>
