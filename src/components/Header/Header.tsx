@@ -9,12 +9,12 @@ function Header() {
 
         <div className="flex">
           {/* Logo */}
-          <Link to="/browse">
+          <Link to="/">
             <img src="/logo.jpeg" alt="Logo" width={80} height={80} />
           </Link>
 
           {/* Options */}
-          <ul className="hidden font-light text-white md:flex ml-6 leading-tight md:text-sm items-center justify-between">
+          <ul className="flex flex-col font-light text-white md:flex-row ml-6 leading-tight md:text-sm items-center justify-between">
 
             <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
               <Link to='/'>Accueil</Link>

@@ -57,7 +57,7 @@ function Home() {
   return (
     <main className='text-white px-10 py-4 relative'>
 
-      <h2 className='mt-6 ml-10 mb-20 text-4xl font-semibold'>
+      <h2 className='mt-6 ml-10 mb-20 text-xl md:text-4xl font-semibold'>
         Content de vous voir, {user.username} !
       </h2>
 

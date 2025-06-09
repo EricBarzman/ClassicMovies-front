@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="py-20 px-36">
+    <footer className="md:py-20 md:px-36 p-14">
       {/* Boite */}
       <div className="text-sm md:w-1/2">
         
