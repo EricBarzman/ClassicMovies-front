@@ -1,12 +1,13 @@
-export interface SerializedUser {
-  id: string;
-  emailAddress: string;
-  userName?: string | null;
-  imageUrl?: string | null;
-}
-
 export interface IAvatar {
   id: string;
   avatarId: number;
   get_image: string;
+}
+
+export interface ISerializedUser {
+  id: string;
+  email: string;
+  username: string;
+  firebaseId: string;
+  avatar: IAvatar
 }

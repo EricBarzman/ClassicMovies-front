@@ -14,13 +14,12 @@ import { type FormDataProp } from "../../../types/auth.type";
 
 import { useAuth } from "../../../firebase/auth";
 import { useAvatars, useUsersCollection } from "../../../firebase/users/userHook";
-import type { IAvatar } from "../../../types/user.type";
+import type { IAvatar, ISerializedUser } from "../../../types/user.type";
 
 const defaultFormData: FormDataProp = {
   email: "",
   username: "",
   password: "",
-  passwordConfirmation: "",
   avatarId: null,
 }
 
@@ -77,18 +76,25 @@ function Signup() {
     setAuthError(null);
 
     // Gestion d'erreurs
-    if (formData.email === '')
+    if (formData.email === '') {
       setAuthError('Vous devez entrer un mail');
-    if (formData.password.length < 8 || formData.password === '')
-      setAuthError('Le mot de passe doit faire 8 caractères de long.');
-    if (formData.password !== formData.passwordConfirmation)
-      setAuthError('Les deux mots de passe doivent être similaires.');
-    if (formData.avatarId === null)
-      setAuthError('Vous avez oublié de choisir un avatar !');
-
-    if (authError) {
       setIsSubmitting(false);
       return;
+    }
+    if (formData.username === '') {
+      setAuthError("Vous devez entrer un nom d'utilisateur");
+      setIsSubmitting(false);
+      return;
+    }
+    if (formData.password.length < 8 || formData.password === '') {
+      setAuthError('Le mot de passe doit faire 8 caractères de long.');
+      setIsSubmitting(false);
+      return;
+    }
+    if (formData.avatarId === null) {
+      setAuthError('Vous avez oublié de choisir un avatar !');
+      setIsSubmitting(false);
+      return; 
     }
 
     try {
@@ -135,7 +141,7 @@ function Signup() {
         Créer votre profile
       </h2>
 
-      <form onSubmit={handleSubmit}>
+      <form className="flex flex-col items-center" onSubmit={handleSubmit}>
         <div className='flex flex-col mx-auto md:w-1/3'>
 
           {authError && (
@@ -169,14 +175,6 @@ function Signup() {
             onChange={handleChange}
           />
 
-          <input
-            name="passwordConfirmation"
-            type={showPassword ? "text" : "password"}
-            className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
-            placeholder='Confirmer votre mot de passe...'
-            onChange={handleChange}
-          />
-
           <Button
             className="flex justify-end"
             isIconOnly
@@ -191,18 +189,10 @@ function Signup() {
               <Eye className="h-4 w-4 text-default-500" />
             )}
           </Button>
-
-          <Button
-            type='submit'
-            isLoading={isSubmitting}
-            className='mt-4 rounded-xl px-6 py-3 bg-teal-900 text-white hover:bg-teal-700 transition-all'
-          >
-            {isSubmitting ? "En cours" : "Action !"}
-          </Button>
-
         </div>
 
         <div className="flex md:flex-row flex-col">
+          <h2>Choisir un avatar</h2>
           {avatars.map((avatar) => (
             <div
               id={avatar.avatarId.toString()}
@@ -218,6 +208,14 @@ function Signup() {
             </div>
           ))}
         </div>
+
+        <Button
+          type='submit'
+          isLoading={isSubmitting}
+          className='mt-4 rounded-xl px-6 py-3 bg-teal-900 text-white hover:bg-teal-700 transition-all md:w-1/2'
+        >
+          {isSubmitting ? "En cours" : "Action !"}
+        </Button>
 
       </form>
 

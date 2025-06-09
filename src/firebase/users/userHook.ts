@@ -1,5 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, Timestamp, updateDoc, where, type DocumentData } from "firebase/firestore";
 import { db } from "../client";
+import { ISerializedUser, IAvatar } from "../../types/user.type";
 
 export function useUsersCollection() {
 
@@ -32,7 +33,7 @@ export function useUsersCollection() {
     return {
       ...snap.data(),
       id: snap.id,
-    }
+    } as ISerializedUser
   }
 
   async function deleteUser(id: string) {
@@ -50,8 +51,10 @@ export function useAvatars() {
     const snap = await getDocs(
       query(ref, orderBy('avatarId'))
     );
-    return snap.docs.map(doc => Object.assign({}, { id: doc.id }, doc.data()));
-  }
+    return snap.docs.map(
+      doc => Object.assign({}, { id: doc.id }, doc.data())
+    ) as IAvatar[];
+  };
 
   return { getAvatars }
 }
