@@ -21,7 +21,7 @@ function AllMoviesPage() {
   return (
     <main className='text-white px-10 py-4 relative'>
 
-      <h2 className="text-2xl mt-12 ml-4 font-bold">Un catalogue inépuisable !</h2>
+      <h2 className="md:text-2xl text-lg mt-12 ml-4 font-bold">Un catalogue inépuisable !</h2>
       <MoviesList movies={movies} />
     </main>
   )

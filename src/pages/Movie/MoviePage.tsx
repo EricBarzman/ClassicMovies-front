@@ -30,7 +30,7 @@ function MoviePage() {
   if (!movie) return <h2>Loading...</h2>
 
   return (
-    <main className="text-white ml-20 py-10 mx-auto">
+    <main className="text-white md:p-20 p-2 py-10 mx-auto">
 
       <h2 className="text-3xl font-semibold mb-6">{movie.title}</h2>
 
@@ -68,7 +68,7 @@ function MoviePage() {
           </div>
 
           {/* Information */}
-          <div className="w-1/2">
+          <div className="w-full md:w-1/2">
             <div className="flex justify-between">
 
               <div>
@@ -83,7 +83,7 @@ function MoviePage() {
                 </p>
                 <p className="text-sm mt-5">{movie.shortDescription}</p>
               </div>
-              
+
               <div className="mr-4">
                 <p><span className="text-gray-500">Genre :</span> {movie.genre.label}</p>
                 <p className="mb-3"><span className="text-gray-500">Country:</span> {movie.country.name}</p>
