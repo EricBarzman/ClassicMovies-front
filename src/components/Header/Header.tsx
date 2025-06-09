@@ -14,7 +14,7 @@ function Header() {
           </Link>
 
           {/* Options */}
-          <ul className="flex flex-col font-light text-white md:flex-row ml-6 leading-tight md:text-sm items-center justify-between">
+          <ul className="flex flex-col font-light text-white sm:flex-row ml-6 leading-tight md:text-sm items-center justify-between">
 
             <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
               <Link to='/'>Accueil</Link>
