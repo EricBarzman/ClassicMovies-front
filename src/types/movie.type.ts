@@ -13,9 +13,16 @@ export interface IGenre {
   createdAt: string;
 }
 
-export interface Keyword {
+export interface IKeyword {
   id: string;
   label: string;
+}
+
+export interface ICountry {
+  id: string;
+  name: string;
+  regionId: string;
+  createdAt: string;
 }
 
 export interface IMovie {
@@ -27,7 +34,7 @@ export interface IMovie {
   get_image: string;
   keywords: string[];
   shortDescription: string;
-  keywordsList: Keyword[];
+  keywordsList: IKeyword[];
   year: number;
   directorId: string;
   director: IDirector;
@@ -43,7 +50,7 @@ export interface IMovie {
   get_image: string;
   keywords: string[];
   shortDescription: string;
-  keywordsList: Keyword[];
+  keywordsList: IKeyword[];
   year: number;
   directorId: string;
   director: IDirector;
@@ -59,8 +66,9 @@ export interface ISingleMovieWithAllInfo {
   decadeChoice: string;
   get_image: string;
   keywords: string[];
+  country : ICountry;
   shortDescription: string;
-  keywordsList: Keyword[];
+  keywordsList: IKeyword[];
   year: number;
   directorId: string;
   director: IDirector;

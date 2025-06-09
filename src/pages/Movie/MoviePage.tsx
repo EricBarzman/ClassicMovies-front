@@ -25,7 +25,7 @@ function MoviePage() {
   useEffect(() => {
     document.title = `${movie?.title} | Classic Movies`;
   }, [movie])
-  
+
 
   if (!movie) return <h2>Loading...</h2>
 
@@ -54,36 +54,41 @@ function MoviePage() {
             </div>
 
             {/* Vote for movie */}
-            <div className="ml-10 mb-4">
+            {/* <div className="ml-10 mb-4">
 
-              {/* <button
-                            className='mt-4 rounded-xl px-4 py-2 bg-primary border-2 border-black text-white hover:bg-green-400 transition-all'
-                            onClick={() => setIsRateMovieModalOpen(true)}
-                        >
-                            Rate movie
-                        </button> */}
+              <button
+                className='mt-4 rounded-xl px-4 py-2 bg-primary border-2 border-black text-white hover:bg-green-400 transition-all'
+                onClick={() => setIsRateMovieModalOpen(true)}
+              >
+                Rate movie
+              </button>
 
-            </div>
+            </div> */}
 
           </div>
 
           {/* Information */}
           <div className="w-1/2">
             <div className="flex justify-between">
+
               <div>
                 <p className="text-gray-400 mb-3">
                   {movie.director.firstName} {movie.director.lastName}
                   <span className="ml-3">{movie.year}</span>
+
                   {movie.keywordsList.map(keyword => (
-                    <div className="text-white" key={keyword.id}>{keyword.label}</div>
+                    <div className="text-white text-sm" key={keyword.id}>{keyword.label}</div>
                   ))}
+
                 </p>
                 <p className="text-sm mt-5">{movie.shortDescription}</p>
               </div>
+              
               <div className="mr-4">
                 <p><span className="text-gray-500">Genre :</span> {movie.genre.label}</p>
-                {/* <p className="text-sm mb-3"><span className="text-gray-500">Country:</span> {movie.country.name}</p> */}
+                <p className="mb-3"><span className="text-gray-500">Country:</span> {movie.country.name}</p>
               </div>
+
             </div>
           </div>
 

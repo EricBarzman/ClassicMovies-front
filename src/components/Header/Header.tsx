@@ -1,25 +1,7 @@
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom"
-import { handleLogout } from "../../redux/features/user";
-import { useAuth } from "../../firebase/auth";
-import { useTypedSelector } from "../../redux/redux.type";
+import { Link } from "react-router-dom"
+import BurgerMenu from "./BurgerMenu/BurgerMenu";
 
 function Header() {
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { logout } = useAuth();
-
-  const user = useTypedSelector(state => state.user);
-  // Récupère le path de l'image : parse le state redux avatar
-  // qui a été stringified, trouve la prop get_image dans l'objet
-  const avatarPath = user.avatar;
-  
-  async function handleSignOut () {
-    await logout();
-    dispatch(handleLogout());
-    navigate("/connexion");
-  };
 
   return (
     <header className="max-w-screen z-2 bg-primary-bg py-2 px-8 sticky top-0 w-full">
@@ -59,14 +41,8 @@ function Header() {
 
         <div className="flex items-center">
           {/* <div className="mr-8">Chercher...</div> */}
+          <BurgerMenu />
 
-          <div className="mr-12 flex">
-            <button className="mr-2 hover:cursor-pointer" onClick={handleSignOut}>Déconnexion</button>
-            {/* Avatar, lien vers mon compte */}
-            <Link to='/my-account'>
-              <img src={`/avatars/${avatarPath}`} className="w-[50px] h-[50px]" alt="avatar" />
-            </Link>
-          </div>
 
         </div>
 
