@@ -145,7 +145,7 @@ function Signup() {
         <div className='flex flex-col mx-auto md:w-1/3'>
 
           {authError && (
-            <div className="mx-auto bg-danger-50 text-danger-700 p-4 roundeg-lg mb-12 flex items-center gap-2">
+            <div className="mx-auto bg-red-800 text-red-600 p-4 roundeg-lg mb-12 flex items-center gap-2">
               <AlertCircle className="h-5 w-5 flex-shrink-0" />
               <p>{authError}</p>
             </div>
