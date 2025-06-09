@@ -69,6 +69,12 @@ function Signup() {
     });
   }
 
+  function gestionErreur(message: string) {
+    setAuthError(message);
+    setIsSubmitting(false);
+    window.scroll(0, 0);
+  }
+
   // Submit
   async function handleSubmit(e: any) {
     e.preventDefault();
@@ -77,24 +83,20 @@ function Signup() {
 
     // Gestion d'erreurs
     if (formData.email === '') {
-      setAuthError('Vous devez entrer un mail');
-      setIsSubmitting(false);
+      gestionErreur('Vous devez entrer un mail');
       return;
     }
     if (formData.username === '') {
-      setAuthError("Vous devez entrer un nom d'utilisateur");
-      setIsSubmitting(false);
+      gestionErreur("Vous devez entrer un nom d'utilisateur");
       return;
     }
     if (formData.password.length < 8 || formData.password === '') {
-      setAuthError('Le mot de passe doit faire 8 caractères de long.');
-      setIsSubmitting(false);
+      gestionErreur('Le mot de passe doit faire 8 caractères de long.');
       return;
     }
     if (formData.avatarId === null) {
-      setAuthError('Vous avez oublié de choisir un avatar !');
-      setIsSubmitting(false);
-      return; 
+      gestionErreur('Vous avez oublié de choisir un avatar !');
+      return;
     }
 
     try {
@@ -145,7 +147,7 @@ function Signup() {
         <div className='flex flex-col mx-auto md:w-1/3'>
 
           {authError && (
-            <div className="mx-auto bg-red-800 text-red-600 p-4 roundeg-lg mb-12 flex items-center gap-2">
+            <div className="mx-auto text-red-700 p-4 roundeg-lg mb-12 flex items-center gap-2">
               <AlertCircle className="h-5 w-5 flex-shrink-0" />
               <p>{authError}</p>
             </div>
@@ -191,8 +193,9 @@ function Signup() {
           </Button>
         </div>
 
+        <h2>Choisir un avatar</h2>
+
         <div className="flex md:flex-row flex-col">
-          <h2>Choisir un avatar</h2>
           {avatars.map((avatar) => (
             <div
               id={avatar.avatarId.toString()}
