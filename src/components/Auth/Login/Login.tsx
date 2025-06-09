@@ -82,12 +82,12 @@ const Login = () => {
   }
 
   return (
-    <div className="p-12 w-3/4 mx-auto">
-      <h2 className="text-4xl mt-10 mb-10 text-center font-semibold uppercase">SE RECONNECTER</h2>
+    <div className="p-12 md:w-3/4 mx-auto">
+      <h2 className="md:text-4xl text-2xl mt-10 mb-10 text-center font-semibold uppercase">SE RECONNECTER</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
 
-        <div className='flex flex-col mx-auto w-1/3'>
+        <div className='flex flex-col mx-auto md:w-1/3'>
 
           {authError && (
             <div className="mx-auto bg-danger-50 text-danger-700 p-4 roundeg-lg mb-12 flex items-center gap-2">
