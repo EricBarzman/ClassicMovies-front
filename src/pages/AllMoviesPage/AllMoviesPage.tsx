@@ -12,6 +12,7 @@ function AllMoviesPage() {
   const { getMoviesWithDirectorInfo } = useMovies();
 
   useEffect(() => {
+    window.scroll(0, 0);
     document.title = 'Movies | Classic Movies';
     getMoviesWithDirectorInfo()
       .then(response => setMovies(response))
@@ -24,9 +25,9 @@ function AllMoviesPage() {
         {movies.length > 0 && movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
-        
+
         {movies.length == 0 && (
-          <p className="h-screen">No result found.</p>
+          <p className="h-screen">Aucun résult trouvé.</p>
         )}
 
       </section>

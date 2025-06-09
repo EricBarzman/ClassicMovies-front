@@ -78,13 +78,13 @@ function Signup() {
 
     // Gestion d'erreurs
     if (formData.email === '')
-      setAuthError('You did not write an email!');
+      setAuthError('Vous devez entrer un mail');
     if (formData.password.length < 8 || formData.password === '')
-      setAuthError('Password must be 8 characters long.');
+      setAuthError('Le mot de passe doit faire 8 caractères de long.');
     if (formData.password !== formData.passwordConfirmation)
-      setAuthError('Both passwords must be the same.');
+      setAuthError('Les deux mots de passe doivent être similaires.');
     if (formData.avatarId === null)
-      setAuthError('You did not choose an avatar!');
+      setAuthError('Vous avez oublié de choisir un avatar !');
 
     if (authError) {
       setIsSubmitting(false);
@@ -97,7 +97,7 @@ function Signup() {
 
       if (!result.user) {
         console.error("Sign up incomplete: ", result);
-        setAuthError("There was an error. Please try again.");
+        setAuthError("Une erreur s'est produite. Réessayez.");
         setIsSubmitting(false);
       }
 
@@ -115,8 +115,9 @@ function Signup() {
         token: await result.user.getIdToken(),
         username: newUser.username,
         avatar: newUser.avatar.get_image,
+        userId: result.user.uid,
       }));
-
+      
       setIsSubmitting(false);
       navigate("/");
 
@@ -131,7 +132,7 @@ function Signup() {
     <div className="p-12 w-3/4 mx-auto">
 
       <h2 className="text-4xl mt-10 mb-10 text-center font-semibold uppercase">
-        Create your profile
+        Créer votre profile
       </h2>
 
       <form onSubmit={handleSubmit}>
@@ -148,7 +149,7 @@ function Signup() {
             name="email"
             type="email"
             className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
-            placeholder='Your email...'
+            placeholder='Votre email...'
             onChange={handleChange}
           />
 
@@ -156,7 +157,7 @@ function Signup() {
             name="username"
             type="text"
             className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
-            placeholder='Your username...'
+            placeholder="Votre nom d'utilisateur..."
             onChange={handleChange}
           />
 
@@ -164,7 +165,7 @@ function Signup() {
             name="password"
             type={showPassword ? "text" : "password"}
             className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
-            placeholder='Your password...'
+            placeholder='Votre mot de passe...'
             onChange={handleChange}
           />
 
@@ -172,7 +173,7 @@ function Signup() {
             name="passwordConfirmation"
             type={showPassword ? "text" : "password"}
             className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
-            placeholder='Confirm your password...'
+            placeholder='Confirmer votre mot de passe...'
             onChange={handleChange}
           />
 
@@ -196,7 +197,7 @@ function Signup() {
             isLoading={isSubmitting}
             className='mt-4 rounded-xl px-6 py-3 bg-teal-900 text-white hover:bg-teal-700 transition-all'
           >
-            {isSubmitting ? "Signing up" : "Roll'em!"}
+            {isSubmitting ? "En cours" : "Action !"}
           </Button>
 
         </div>
@@ -221,9 +222,9 @@ function Signup() {
       </form>
 
       <div className="text-gray-500 text-center mt-10">
-        Already have an account?
+        Vous avez déjà un compte ?
         <span className="underline text-white ml-4">
-          <Link to="/login">Log in</Link>
+          <Link to="/connexion">Se connecter</Link>
         </span>
       </div>
     </div>

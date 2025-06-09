@@ -1,15 +1,47 @@
 import { Link } from 'react-router-dom'
 import type { IMovie } from '../../../types/movie.type'
 import { FaPlay } from 'react-icons/fa'
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
+import { useFavorites } from '../../../firebase/users/userHook';
+import { useTypedSelector } from '../../../redux/redux.type';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { updateFavorites } from '../../../redux/features/favorites';
 
-
-// A supprimer !
-const isFavorite = false;
-
-function addToMyFavorites() {}
 
 function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
+
+  const { addToFavorites, deleteFromFavorites } = useFavorites();
+
+  const user = useTypedSelector(state => state.user);
+  const favorites = useTypedSelector(state => state.favorites.mesFavoris);
+  const favoriteFound = favorites.find(fav => fav.movieId === movie.id); 
+  const isFavorite = favoriteFound !== undefined; 
+
+  const dispatch = useDispatch();
+
+  async function addToMyFavorites() {
+    try {
+      await addToFavorites({
+        movieId: movie.id,
+        userId: user.userId,
+      });
+      dispatch({ type: 'FETCH_FAVORITES' });
+      toast("Ajouté à vos favoris !");
+
+    } catch (error) {
+      toast.error("Une erreur s'est produite. Réessayez")
+      console.error("Impossible d'ajouter aux favoris: ", error);
+    }
+  }
+
+  async function removeFromMyFavorites() {
+    await deleteFromFavorites(favoriteFound!.id);
+    dispatch({ type: 'FETCH_FAVORITES' });
+    toast("Retiré de vos favoris !");
+  }
+
+
   return (
     <div
       className={`shadow-lg shadow-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-1
@@ -28,13 +60,13 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
 
 
       <div className='p-6'>
-        
+
         {/* Options */}
         <div className='flex justify-between m-6'>
 
           <div className='flex flex-row justify-between items-center'>
 
-            <Link to={'/browse/movies/' + movie.id}>
+            <Link to={'/parcourir/films/' + movie.id}>
               <FaPlay className='mr-6 text-2xl transition duration-75 hover:text-gray-400' />
             </Link>
 
@@ -44,12 +76,12 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
               </button>
             )}
 
-            {/* {isFavorite && (
-              <button onClick={removeFromMyFavorites}>
-                <MdFavorite className='fill-primary' />
+            {isFavorite && (
+              <button className='hover:text-gray-400 text-3xl hover:cursor-pointer' onClick={removeFromMyFavorites}>
+                <IoIosRemoveCircleOutline />
               </button>
-            )} */}
-            
+            )}
+
           </div>
 
         </div>

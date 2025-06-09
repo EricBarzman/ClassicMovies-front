@@ -37,6 +37,7 @@ function Home() {
   const { getMoviesWithDirectorInfo } = useMovies();
 
   useEffect(() => {
+    window.scroll(0, 0);
     document.title = 'Home | Classic Movies';
     getMoviesWithDirectorInfo()
       .then(response => setMovies(response.slice(0, 5)))
@@ -51,8 +52,8 @@ function Home() {
   return (
     <main className='text-white px-10 py-4 relative'>
 
-      <h2 className='mt-6 ml-10 mb-20 capitalize text-4xl font-semibold'>
-        Welcome back, {user.username}!
+      <h2 className='mt-6 ml-10 mb-20 text-4xl font-semibold'>
+        Content de vous voir, {user.username} !
       </h2>
 
       {randomMovie?.youtube_url && (
@@ -64,7 +65,7 @@ function Home() {
           <MovieCard key={movie.id} movie={movie} />
         ))}
         {movies.length == 0 && (
-          <p className="h-screen">No result found.</p>
+          <p className="h-screen">Aucun résult trouvé.</p>
         )}
       </section>
 

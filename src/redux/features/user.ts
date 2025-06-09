@@ -6,6 +6,7 @@ export const initialState = {
   email: localStorage.getItem('email') ?? '',
   username: localStorage.getItem('username') ?? '',
   avatar: localStorage.getItem('avatar') ?? '',
+  userId: localStorage.getItem('userId') ?? '',
 }
 
 const userSlice = createSlice({
@@ -13,11 +14,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     updateUser: (state, action) => {
-      const { email, token, username, avatar } = action.payload;
+      const { email, token, username, avatar, userId } = action.payload;
       localStorage.setItem('token', token)
       localStorage.setItem('email', email)
       localStorage.setItem('username', username)
       localStorage.setItem('avatar', avatar)
+      localStorage.setItem('userId', userId)
       return {
         ...state,
         logged: true,
@@ -25,6 +27,7 @@ const userSlice = createSlice({
         email,
         token,
         avatar,
+        userId,
       }
     },
 
@@ -33,12 +36,14 @@ const userSlice = createSlice({
       localStorage.removeItem('email');
       localStorage.removeItem('username');
       localStorage.removeItem('avatar');
+      localStorage.removeItem('userId');
       return {
         email: "",
         username: '',
         token: "",
         avatar: "",
         logged: false,
+        userId: "",
       }
     },
   }

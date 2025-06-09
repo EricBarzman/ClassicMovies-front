@@ -2,7 +2,7 @@ import { useEffect } from "react"
 
 export default function Terms_of_use() {
   useEffect(()=> {
-    document.title = `Terms of Use | Retrocine`;
+    document.title = `Termes | Classic movies`;
     window.scrollTo(0, 0);
   }, [])
 

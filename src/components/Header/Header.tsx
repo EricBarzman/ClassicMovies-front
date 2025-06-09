@@ -18,7 +18,7 @@ function Header() {
   async function handleSignOut () {
     await logout();
     dispatch(handleLogout());
-    navigate("/login");
+    navigate("/connexion");
   };
 
   return (
@@ -35,22 +35,22 @@ function Header() {
           <ul className="hidden font-light text-white md:flex ml-6 leading-tight md:text-sm items-center justify-between">
 
             <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
-              <Link to='/'>Home</Link>
+              <Link to='/'>Accueil</Link>
             </li>
             <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
-              <Link to='/browse/movies'>Movies</Link>
-            </li>
-
-            <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
-              <Link to='/browse/genre'>Genre</Link>
+              <Link to='/parcourir/films'>Films</Link>
             </li>
 
             <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
-              <Link to='/browse/popular'>Popular</Link>
+              <Link to='/parcourir/genres'>Genres</Link>
             </li>
 
             <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
-              <Link to='/my-list'>My List</Link>
+              <Link to='/parcourir/populaires'>Populaires</Link>
+            </li>
+
+            <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
+              <Link to='/mes-favoris'>Favoris</Link>
             </li>
           </ul>
 
@@ -58,10 +58,10 @@ function Header() {
 
 
         <div className="flex items-center">
-          <div className="mr-8">Search</div>
+          <div className="mr-8">Chercher...</div>
 
           <div className="mr-12 flex">
-            <button className="mr-2 hover:cursor-pointer" onClick={handleSignOut}>Sign out</button>
+            <button className="mr-2 hover:cursor-pointer" onClick={handleSignOut}>Déconnexion</button>
             {/* Avatar, lien vers mon compte */}
             <Link to='/my-account'>
               <img src={`/avatars/${avatarPath}`} className="w-[50px] h-[50px]" alt="avatar" />

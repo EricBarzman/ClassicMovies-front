@@ -27,9 +27,7 @@ export function useUsersCollection() {
       ...data,
       createdAt: Timestamp.fromDate(new Date())
     })
-    // Get the user
     const snap = await getDoc(newRef);
-    // Get the avatar
 
     return {
       ...snap.data(),
@@ -56,4 +54,28 @@ export function useAvatars() {
   }
 
   return { getAvatars }
+}
+
+export function useFavorites() {
+
+  async function getUserFavorites(userId: string) {
+    const ref = collection(db, "favorites");
+    const snap = await getDocs(
+      query(ref, where("userId", "==", userId)));
+
+    if (snap.docs)
+      return snap.docs.map(doc => Object.assign({}, { id: doc.id }, doc.data()));
+  }
+
+  async function addToFavorites(data: DocumentData) {
+    const ref = collection(db, "favorites");
+    return addDoc(ref, data);
+  }
+
+  async function deleteFromFavorites(favoriteId: string) {
+    const ref = doc(db, 'favorites', favoriteId);
+    return deleteDoc(ref);
+  }
+
+  return { addToFavorites, getUserFavorites, deleteFromFavorites }
 }

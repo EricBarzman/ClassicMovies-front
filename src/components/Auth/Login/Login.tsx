@@ -17,7 +17,8 @@ import { Button } from "@heroui/button";
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useTypedSelector } from "../../../redux/redux.type";
 import { updateUser } from "../../../redux/features/user";
-import { useUsersCollection } from "../../../firebase/users/userHook";
+import { useFavorites, useUsersCollection } from "../../../firebase/users/userHook";
+import { updateFavorites } from "../../../redux/features/favorites";
 
 
 const Login = () => {
@@ -26,6 +27,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const { login } = useAuth();
   const { getUserByFirebaseId } = useUsersCollection();
+  const { getUserFavorites } = useFavorites();
   const user = useTypedSelector(state => state.user);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,31 +56,34 @@ const Login = () => {
       const result = await login(data.identifier, data.password);
       
       if (!result.user) {
-        console.error("Sign in incomplete: ", result);
-        setAuthError("There was an error. Please try again.");
+        console.error("Echec à se connecter : ", result);
+        setAuthError("Une erreur s'est produite, merci de réesayer.");
       }
 
       const firebaseId = result.user.uid;
       const userInfo = await getUserByFirebaseId(firebaseId);
+      const userFavorites = await getUserFavorites(firebaseId);
 
       dispatch(updateUser({
         email: result.user.email,
         username: userInfo?.username,
         avatar: userInfo?.avatar.get_image,
         token: await result.user.getIdToken(),
+        userId: firebaseId,
       }));
-      navigate("/browse");
+      dispatch({ type: 'FETCH_FAVORITES' });
+      navigate("/");
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      setAuthError(error.errors?.[0]?.message || "An error occured.")
+      setAuthError(error.errors?.[0]?.message || "Une erreur s'est produite.")
       setIsSubmitting(false);
     }
   }
 
   return (
     <div className="p-12 w-3/4 mx-auto">
-      <h2 className="text-4xl mt-10 mb-10 text-center font-semibold uppercase">LOG BACK IN</h2>
+      <h2 className="text-4xl mt-10 mb-10 text-center font-semibold uppercase">SE RECONNECTER</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -95,7 +100,7 @@ const Login = () => {
             id="identifier"
             type="text"
             className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
-            placeholder='Your email...'
+            placeholder='Votre email...'
             {...register("identifier")}
           />
           {errors.identifier ? <p className="mb-4">{errors.identifier?.message}</p> : ""}
@@ -104,7 +109,7 @@ const Login = () => {
             id="password"
             type={showPassword ? "text" : "password"}
             className='bg-black py-3 px-6 mb-4 rounded-xl border focus:outline-none'
-            placeholder='Your password...'
+            placeholder='Votre mot de passe...'
             {...register("password")}
           />
           {errors.password ? <p className="mb-4">{errors.password?.message}</p> : ""}
@@ -129,13 +134,13 @@ const Login = () => {
             isLoading={isSubmitting}
             className='mt-4 rounded-xl px-6 py-3 bg-teal-900 text-white hover:bg-teal-700 transition-all'
           >
-            {isSubmitting ? "Signing in" : "Log in"}
+            {isSubmitting ? "Connexion en cours" : "Se connecter"}
           </Button>
         </div>
       </form>
 
       <div className="text-gray-500 text-center mt-10">
-        No account yet? <span className="underline text-white ml-4"><Link to="/signup">Sign up</Link></span>
+        Pas de compte ? <span className="underline text-white ml-4"><Link to="/enregistrement">Créer un compte</Link></span>
       </div>
     </div>
   )
