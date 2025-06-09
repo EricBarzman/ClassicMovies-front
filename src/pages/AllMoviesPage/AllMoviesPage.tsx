@@ -13,7 +13,7 @@ function AllMoviesPage() {
 
   useEffect(() => {
     window.scroll(0, 0);
-    document.title = 'Movies | Classic Movies';
+    document.title = 'Films | Classic Movies';
     getMoviesWithDirectorInfo()
       .then(response => setMovies(response))
   }, []);

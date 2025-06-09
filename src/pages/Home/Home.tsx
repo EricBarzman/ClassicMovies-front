@@ -38,7 +38,7 @@ function Home() {
 
   useEffect(() => {
     window.scroll(0, 0);
-    document.title = 'Home | Classic Movies';
+    document.title = 'Accueil | Classic Movies';
     getMoviesWithDirectorInfo()
       .then(response => setMovies(response.slice(0, 5)))
   }, []);

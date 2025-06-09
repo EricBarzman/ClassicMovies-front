@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const initialState = {
   mesFavoris: [{
     id: "",
-    movieId: 0,
+    movieId: "",
     userId: "",
   }]
 }

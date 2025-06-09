@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+
 import type { IMovie } from '../../../types/movie.type'
+import { useTypedSelector } from '../../../redux/redux.type';
+import { useFavorites } from '../../../firebase/users/userHook';
+
 import { FaPlay } from 'react-icons/fa'
 import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
-import { useFavorites } from '../../../firebase/users/userHook';
-import { useTypedSelector } from '../../../redux/redux.type';
+
+
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { updateFavorites } from '../../../redux/features/favorites';
 
 
 function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
@@ -77,7 +80,7 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
             )}
 
             {isFavorite && (
-              <button className='hover:text-gray-400 text-3xl hover:cursor-pointer' onClick={removeFromMyFavorites}>
+              <button className='hover:text-gray-600 text-gray-500 text-3xl hover:cursor-pointer' onClick={removeFromMyFavorites}>
                 <IoIosRemoveCircleOutline />
               </button>
             )}

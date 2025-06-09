@@ -12,7 +12,7 @@ interface Keyword {
 }
 
 export interface IMovie {
-  id: number;
+  id: string;
   title: string;
   slug: string;
   genreId: string;
