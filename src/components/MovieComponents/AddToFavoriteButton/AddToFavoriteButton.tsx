@@ -18,7 +18,7 @@ function AddToFavoriteButton({ movieId } : { movieId : string}) {
         userId: user.userId,
       });
       dispatch({ type: 'FETCH_FAVORITES' });
-      toast("Ajouté à vos favoris !");
+      toast.success("Ajouté à vos favoris !");
 
     } catch (error) {
       toast.error("Une erreur s'est produite. Réessayez")

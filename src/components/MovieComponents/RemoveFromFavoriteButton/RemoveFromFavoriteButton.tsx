@@ -12,7 +12,7 @@ function RemoveFromFavoriteButton({ favoriteId }: { favoriteId: string }) {
   async function removeFromMyFavorites() {
     await deleteFromFavorites(favoriteId);
     dispatch({ type: 'FETCH_FAVORITES' });
-    toast("Retiré de vos favoris !");
+    toast.success("Retiré de vos favoris !");
   }
 
   return (

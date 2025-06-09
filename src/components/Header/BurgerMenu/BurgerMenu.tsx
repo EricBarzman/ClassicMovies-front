@@ -33,7 +33,7 @@ function BurgerMenu() {
   };
 
   return (
-    <div className="mr-12 flex">
+    <div className="md:mr-12 flex">
 
       <Dropdown className="text-gray-300 bg-black opacity-75 border-1 px-1 py-2">
 
