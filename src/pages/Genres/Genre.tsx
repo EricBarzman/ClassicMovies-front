@@ -4,6 +4,7 @@ import { useGenres } from '../../firebase/movies/genreHooks';
 import { useMovies } from '../../firebase/movies/movieHooks';
 
 import MoviesList from "../../components/MovieComponents/MoviesList/MoviesList";
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 
 function Genre() {
 
@@ -31,6 +32,8 @@ function Genre() {
   function searchMoviesByGenre(e) {
     setChosenGenre(genres.find(genre => genre.id === e.target.value));
   };
+
+  if (genres.length === 0) return <LoadingSpinner />
 
   return (
     <main className='px-10 py-4 relative'>
@@ -66,6 +69,7 @@ function Genre() {
           ))}
         </select> */}
       </div>
+      {movies.length === 0 && <LoadingSpinner />}
       <MoviesList movies={movies} />
     </main>
   )

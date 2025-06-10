@@ -8,7 +8,6 @@ import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
-  DropdownSection,
   DropdownItem
 } from "@heroui/dropdown";
 import { VscAccount } from "react-icons/vsc";

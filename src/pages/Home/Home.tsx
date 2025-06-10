@@ -7,8 +7,9 @@ import { useMovies } from "../../firebase/movies/movieHooks"
 import { shuffleArr } from "../../utils/shuffleArray";
 
 import MovieVideo from "../../components/MovieComponents/MovieVideo/MovieVideo"
-import MovieCard from "../../components/MovieComponents/MovieCard/MovieCard"
 import MoviesList from "../../components/MovieComponents/MoviesList/MoviesList";
+
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 function Home() {
 
@@ -65,6 +66,7 @@ function Home() {
         <MovieVideo youtube_id={randomMovie?.youtube_url!} />
       )}
 
+      {movies.length === 0 && <LoadingSpinner />}
       <MoviesList movies={movies} />
 
     </main>

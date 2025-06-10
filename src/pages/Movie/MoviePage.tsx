@@ -6,6 +6,7 @@ import MovieVideo from "../../components/MovieComponents/MovieVideo/MovieVideo";
 import { useTypedSelector } from "../../redux/redux.type";
 import AddToMyFavoriteButton from "../../components/MovieComponents/AddToFavoriteButton/AddToFavoriteButton";
 import RemoveFromFavoriteButton from "../../components/MovieComponents/RemoveFromFavoriteButton/RemoveFromFavoriteButton";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 
 function MoviePage() {
@@ -27,7 +28,7 @@ function MoviePage() {
   }, [movie])
 
 
-  if (!movie) return <h2>Loading...</h2>
+  if (!movie) return <LoadingSpinner />
 
   return (
     <main className="text-white md:p-20 p-2 py-10 mx-auto">
