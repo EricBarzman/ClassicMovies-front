@@ -10,9 +10,11 @@ import RemoveFromFavoriteButton from '../RemoveFromFavoriteButton/RemoveFromFavo
 
 function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
 
+  const user = useTypedSelector(state => state.user);
+
   const favorites = useTypedSelector(state => state.favorites.mesFavoris);
-  const favoriteFound = favorites.find(fav => fav.movieId === movie.id); 
-  const isFavorite = favoriteFound !== undefined; 
+  const favoriteFound = favorites.find(fav => fav.movieId === movie.id);
+  const isFavorite = favoriteFound !== undefined;
 
   return (
     <div
@@ -42,30 +44,37 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
               <FaPlay className='mr-6 text-2xl transition duration-75 hover:text-gray-400' />
             </Link>
 
-            {!isFavorite && (
-              <AddToFavoriteButton movieId={movie.id} />
-            )}
-
-            {isFavorite && (
-              <RemoveFromFavoriteButton favoriteId={favoriteFound.id} />
-            )}
+            {/* Favoris que si utilisateur connecté */}
+            {user.logged && (<div>
+              {!isFavorite && (
+                <AddToFavoriteButton movieId={movie.id} />
+              )}
+              {isFavorite && (
+                <RemoveFromFavoriteButton favoriteId={favoriteFound.id} />
+              )}
+            </div>)}
 
           </div>
 
         </div>
 
-        <h2 className='font-semibold'>{movie.title}</h2>
-        <p className='text-gray-700 mt-3'>{movie.year}</p>
-        <p className='text-sm text-gray-400'>
-          Dir. by <span className='font-semibold'>{movie.director.firstName} {movie.director.lastName}</span>
-        </p>
-        <ul className='m-4 flex'>
-          {movie.keywordsList.map((keyword, index, arr) => (
-            <li key={index} className=''>
-              {keyword.label}{index !== (arr.length - 1) && (<span className='mx-1'>{` - `}</span>)}
-            </li>
-          ))}
-        </ul>
+        {/* Infos */}
+        <section>
+          
+          <h2 className='font-semibold'>{movie.title}</h2>
+          <p className='text-gray-700 mt-3'>{movie.year}</p>
+          <p className='text-sm text-gray-400'>
+            Dir. by <span className='font-semibold'>{movie.director.firstName} {movie.director.lastName}</span>
+          </p>
+          <ul className='m-4 flex'>
+            {movie.keywordsList.map((keyword, index, arr) => (
+              <li key={index} className=''>
+                {keyword.label}{index !== (arr.length - 1) && (<span className='mx-1'>{` - `}</span>)}
+              </li>
+            ))}
+          </ul>
+        </section>
+
       </div>
 
     </div>

@@ -8,7 +8,6 @@ import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
-  DropdownSection,
   DropdownItem
 } from "@heroui/dropdown";
 import { VscAccount } from "react-icons/vsc";
@@ -33,12 +32,14 @@ function BurgerMenu() {
   };
 
   return (
-    <div className="md:mr-12 flex">
+    <div className="md:mr-6 flex">
 
       <Dropdown className="text-gray-300 bg-black opacity-75 border-1 px-1 py-2">
 
         <DropdownTrigger>
-          <img src={`/avatars/${avatarPath}`} className="w-[50px] h-[50px]" alt="avatar" />
+          <button>
+            <img src={`/avatars/${avatarPath}`} className="w-[70px] h-[60px] hover:cursor-pointer" alt="avatar" />
+          </button>
         </DropdownTrigger>
 
         <DropdownMenu aria-label="Static Actions">

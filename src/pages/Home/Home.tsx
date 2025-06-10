@@ -7,8 +7,8 @@ import { useMovies } from "../../firebase/movies/movieHooks"
 import { shuffleArr } from "../../utils/shuffleArray";
 
 import MovieVideo from "../../components/MovieComponents/MovieVideo/MovieVideo"
-import MovieCard from "../../components/MovieComponents/MovieCard/MovieCard"
 import MoviesList from "../../components/MovieComponents/MoviesList/MoviesList";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 function Home() {
 
@@ -54,11 +54,13 @@ function Home() {
     setRandomMovie(movies[newIndex]);
   }, [movies])
 
+  if (movies.length === 0) return (<LoadingSpinner />)
+
   return (
     <main className='text-white px-10 py-4 relative'>
 
       <h2 className='mt-6 ml-10 mb-20 text-xl md:text-4xl font-semibold'>
-        Content de vous voir, {user.username} !
+        {user.logged ? `Content de vous voir, ${user.username} !` : "Classic Movies, le must du cinéphile !"}
       </h2>
 
       {randomMovie?.youtube_url && (

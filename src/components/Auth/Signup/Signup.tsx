@@ -15,6 +15,7 @@ import { type FormDataProp } from "../../../types/auth.type";
 import { useAuth } from "../../../firebase/auth";
 import { useAvatars, useUsersCollection } from "../../../firebase/users/userHook";
 import type { IAvatar, ISerializedUser } from "../../../types/user.type";
+import { GoArrowLeft } from "react-icons/go";
 
 const defaultFormData: FormDataProp = {
   email: "",
@@ -137,7 +138,7 @@ function Signup() {
   }
 
   return (
-    <div className="p-12 md:w-3/4 mx-auto">
+    <div className="p-12 md:w-3/4 flex flex-col items-center mx-auto">
 
       <h2 className="md:text-4xl text-2xl mt-10 mb-10 text-center font-semibold uppercase">
         Créer votre profile
@@ -223,10 +224,19 @@ function Signup() {
       </form>
 
       <div className="text-gray-500 text-center mt-10">
-        Vous avez déjà un compte ?
+        Vous avez un compte ?
         <span className="underline text-white ml-4">
           <Link to="/connexion">Se connecter</Link>
         </span>
+      </div>
+
+      <div className="mt-16 inline-block">
+        <Link className="text-lg flex items-center hover:underline hover:text-gray-300" to="/">
+          <span>
+            <GoArrowLeft className="text-xl mr-2" />
+          </span>
+          Retour accueil
+        </Link>
       </div>
     </div>
   )

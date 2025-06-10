@@ -1,17 +1,24 @@
 import { useEffect, useState } from "react"
 import type { ISingleMovieWithAllInfo } from "../../types/movie.type"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMovies } from "../../firebase/movies/movieHooks";
 import MovieVideo from "../../components/MovieComponents/MovieVideo/MovieVideo";
 import { useTypedSelector } from "../../redux/redux.type";
 import AddToMyFavoriteButton from "../../components/MovieComponents/AddToFavoriteButton/AddToFavoriteButton";
 import RemoveFromFavoriteButton from "../../components/MovieComponents/RemoveFromFavoriteButton/RemoveFromFavoriteButton";
+import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 
 
 function MoviePage() {
 
+  // Redirection si pas connecté
+  const navigate = useNavigate();
+  const user = useTypedSelector((state) => state.user);
+  if (!user.logged) navigate("/connexion");
+
   const [movie, setMovie] = useState<ISingleMovieWithAllInfo>()
   const movieId = useParams().movie_id!;
+
   const favorites = useTypedSelector(state => state.favorites.mesFavoris);
   const favoriteFound = favorites.find(fav => fav.movieId === movieId);
   const isFavorite = favoriteFound !== undefined;
@@ -26,8 +33,7 @@ function MoviePage() {
     document.title = `${movie?.title} | Classic Movies`;
   }, [movie])
 
-
-  if (!movie) return <h2>Loading...</h2>
+  if (!movie) return <LoadingSpinner />
 
   return (
     <main className="text-white md:p-20 p-2 py-10 mx-auto">

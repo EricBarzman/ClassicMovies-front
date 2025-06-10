@@ -41,7 +41,7 @@ function Genre() {
 
         <select
           onChange={searchMoviesByGenre}
-          className="bg-black p-3 rounded-lg flex flex-wrap text-gray-600"
+          className="bg-black p-3 rounded-lg flex flex-wrap text-gray-300"
           name="genre"
         >
           <option disabled>- Genre -</option>
