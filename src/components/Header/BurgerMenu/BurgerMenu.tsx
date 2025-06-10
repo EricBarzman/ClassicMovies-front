@@ -10,7 +10,10 @@ import {
   DropdownMenu,
   DropdownItem
 } from "@heroui/dropdown";
+
+// import { GoArrowUp } from "react-icons/go";
 import { VscAccount } from "react-icons/vsc";
+// import { useState } from "react";
 
 
 
@@ -32,12 +35,12 @@ function BurgerMenu() {
   };
 
   return (
-    <div className="md:mr-12 flex">
+    <div className="md:mr-6 flex items-center">
 
       <Dropdown className="text-gray-300 bg-black opacity-75 border-1 px-1 py-2">
 
         <DropdownTrigger>
-          <img src={`/avatars/${avatarPath}`} className="w-[50px] h-[50px]" alt="avatar" />
+          <img src={`/avatars/${avatarPath}`} className="w-[70px] h-[60px] hover:cursor-pointer" alt="avatar" />
         </DropdownTrigger>
 
         <DropdownMenu aria-label="Static Actions">
@@ -56,6 +59,9 @@ function BurgerMenu() {
         </DropdownMenu>
 
       </Dropdown>
+
+      {/* <GoArrowUp className={`text-2xl transition-all duration-200 rotate-${!isOpen ? '180' : '0'} text-white font-bold`} /> */}
+
     </div>
   )
 }
