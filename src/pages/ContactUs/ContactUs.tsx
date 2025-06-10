@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast";
-import { ITopic, topicsList } from "../../constants/topics";
 
+import { ITopic, topicsList } from "../../constants/topics";
+import { useContactUs } from "../../firebase/users/userHook";
+import { useTypedSelector } from "../../redux/redux.type";
 
 function ContactUs() {
 
   // Topics
   const [topics, setTopics] = useState<ITopic[]>([]);
+  const { sendMessageToUs } = useContactUs();
+  const user = useTypedSelector(state => state.user)
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -34,9 +38,7 @@ function ContactUs() {
     event.preventDefault();
 
     try {
-      console.log(formData);
-
-      // A implémenter : envoi du message au serveur
+      await sendMessageToUs(formData);
       toast.success('Votre message a bien été envoyé !');
 
     } catch (error) {

@@ -17,8 +17,7 @@ import { Button } from "@heroui/button";
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useTypedSelector } from "../../../redux/redux.type";
 import { updateUser } from "../../../redux/features/user";
-import { useFavorites, useUsersCollection } from "../../../firebase/users/userHook";
-import { updateFavorites } from "../../../redux/features/favorites";
+import { useUsersCollection } from "../../../firebase/users/userHook";
 
 
 const Login = () => {
@@ -27,7 +26,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const { login } = useAuth();
   const { getUserByFirebaseId } = useUsersCollection();
-  const { getUserFavorites } = useFavorites();
   const user = useTypedSelector(state => state.user);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,8 +60,7 @@ const Login = () => {
 
       const firebaseId = result.user.uid;
       const userInfo = await getUserByFirebaseId(firebaseId);
-      const userFavorites = await getUserFavorites(firebaseId);
-
+      
       dispatch(updateUser({
         email: result.user.email,
         username: userInfo?.username,

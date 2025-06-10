@@ -3,6 +3,7 @@ import userSlice from "./features/user";
 import searchSlice from "./features/search";
 import favoritesSlice from "./features/favorites";
 import favoriteMiddleware from "./features/favorites.middleware";
+import userMiddleware from "./features/user.middleware";
 
 const store = configureStore({
   reducer: {
@@ -11,7 +12,7 @@ const store = configureStore({
     favorites: favoritesSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-        favoriteMiddleware,
+        userMiddleware, favoriteMiddleware,
     ),
 });
 

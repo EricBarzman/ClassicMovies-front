@@ -82,3 +82,17 @@ export function useFavorites() {
 
   return { addToFavorites, getUserFavorites, deleteFromFavorites }
 }
+
+
+export function useContactUs() {
+
+  async function sendMessageToUs(data: DocumentData) {
+    const ref = collection(db, 'contactUs');
+    return addDoc(ref, {
+      ...data,
+      createdAt: Timestamp.fromDate(new Date())
+    })
+  }
+
+  return { sendMessageToUs }
+}

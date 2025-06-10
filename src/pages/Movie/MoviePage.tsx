@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import type { IMovie, ISingleMovieWithAllInfo } from "../../types/movie.type"
+import type { ISingleMovieWithAllInfo } from "../../types/movie.type"
 import { useParams } from "react-router-dom";
 import { useMovies } from "../../firebase/movies/movieHooks";
 import MovieVideo from "../../components/MovieComponents/MovieVideo/MovieVideo";

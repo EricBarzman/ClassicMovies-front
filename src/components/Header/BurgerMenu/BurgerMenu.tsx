@@ -43,7 +43,7 @@ function BurgerMenu() {
 
         <DropdownMenu aria-label="Static Actions">
           <DropdownItem className="mb-2" key="mon-compte">
-            <Link className="flex items-center" to='/mon-compte'>
+            <Link className="flex items-center" to='/mon-compte/profile'>
               <VscAccount /><span className="ml-2">Mon compte</span>
             </Link>
           </DropdownItem>
