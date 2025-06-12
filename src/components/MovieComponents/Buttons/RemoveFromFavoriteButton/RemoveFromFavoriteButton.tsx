@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useFavorites } from '../../../firebase/users/userHook';
+import { useFavorites } from '../../../../firebase/users/userHook';
 import toast from 'react-hot-toast';
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 

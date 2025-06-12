@@ -11,3 +11,10 @@ export interface ISerializedUser {
   firebaseId: string;
   avatar: IAvatar
 }
+
+export interface IVote {
+  id: string;
+  userId: string;
+  movieId: string;
+  value: number;
+}

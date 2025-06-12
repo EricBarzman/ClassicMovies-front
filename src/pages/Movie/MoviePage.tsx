@@ -1,23 +1,31 @@
 import { useEffect, useState } from "react"
-import type { ISingleMovieWithAllInfo } from "../../types/movie.type"
 import { useParams } from "react-router-dom";
-import { useMovies } from "../../firebase/movies/movieHooks";
-import MovieVideo from "../../components/MovieComponents/MovieVideo/MovieVideo";
 import { useTypedSelector } from "../../redux/redux.type";
-import AddToMyFavoriteButton from "../../components/MovieComponents/AddToFavoriteButton/AddToFavoriteButton";
-import RemoveFromFavoriteButton from "../../components/MovieComponents/RemoveFromFavoriteButton/RemoveFromFavoriteButton";
+
+import { useMovies } from "../../firebase/movies/movieHooks";
+
+import type { ISingleMovieWithAllInfo } from "../../types/movie.type"
+
+import MovieVideo from "../../components/MovieComponents/MovieVideo/MovieVideo";
+import AddToMyFavoriteButton from "../../components/MovieComponents/Buttons/AddToFavoriteButton/AddToFavoriteButton";
+import RemoveFromFavoriteButton from "../../components/MovieComponents/Buttons/RemoveFromFavoriteButton/RemoveFromFavoriteButton";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
+import VoteForButton from '../../components/MovieComponents/Buttons/VoteForButton/VoteForButton';
 
 
 function MoviePage() {
 
   const [movie, setMovie] = useState<ISingleMovieWithAllInfo>()
   const movieId = useParams().movie_id!;
+  
   const favorites = useTypedSelector(state => state.favorites.mesFavoris);
   const favoriteFound = favorites.find(fav => fav.movieId === movieId);
   const isFavorite = favoriteFound !== undefined;
 
   const { getMovieByIdWithAllInfo } = useMovies();
+
+  const [showVoteModal, setShowVoteModal] = useState(false);
+
 
   useEffect(() => {
     getMovieByIdWithAllInfo(movieId).then(data => setMovie(data));
@@ -41,31 +49,18 @@ function MoviePage() {
       <section className="mb-6">
         <div className="mt-10 ml-5 mb-10">
 
-          <div className="flex items-end mb-4">
+          <div className="flex items-center mb-6 text-xl">
 
             {/* Add to favorites */}
-            <div className="mb-6 text-xl">
-              {!isFavorite && (
-                <AddToMyFavoriteButton movieId={movieId} />
-              )}
+            {!isFavorite && (
+              <AddToMyFavoriteButton movieId={movieId} />
+            )}
 
-              {isFavorite && (
-                <RemoveFromFavoriteButton favoriteId={favoriteFound.id} />
-              )}
-            </div>
+            {isFavorite && (
+              <RemoveFromFavoriteButton favoriteId={favoriteFound.id} />
+            )}
 
-            {/* Vote for movie */}
-            {/* <div className="ml-10 mb-4">
-
-              <button
-                className='mt-4 rounded-xl px-4 py-2 bg-primary border-2 border-black text-white hover:bg-green-400 transition-all'
-                onClick={() => setIsRateMovieModalOpen(true)}
-              >
-                Rate movie
-              </button>
-
-            </div> */}
-
+            <VoteForButton movieId={movie.id}/>
           </div>
 
           {/* Information */}

@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { useFavorites } from '../../../firebase/users/userHook';
-import { useTypedSelector } from '../../../redux/redux.type';
+import { useFavorites } from '../../../../firebase/users/userHook';
+import { useTypedSelector } from '../../../../redux/redux.type';
 import toast from 'react-hot-toast';
 import { IoIosAddCircleOutline } from "react-icons/io";
 

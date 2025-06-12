@@ -4,8 +4,8 @@ import type { IMovie } from '../../../types/movie.type'
 import { useTypedSelector } from '../../../redux/redux.type';
 
 import { FaPlay } from 'react-icons/fa'
-import AddToFavoriteButton from '../AddToFavoriteButton/AddToFavoriteButton';
-import RemoveFromFavoriteButton from '../RemoveFromFavoriteButton/RemoveFromFavoriteButton';
+import AddToFavoriteButton from '../Buttons/AddToFavoriteButton/AddToFavoriteButton';
+import RemoveFromFavoriteButton from '../Buttons/RemoveFromFavoriteButton/RemoveFromFavoriteButton';
 
 
 function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
@@ -34,7 +34,7 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
       <div className='p-6'>
 
         {/* Options */}
-        <div className='flex justify-between m-6'>
+        <div className='flex justify-between m-2 mb-4'>
 
           <div className='flex flex-row justify-between items-center'>
 
@@ -49,7 +49,6 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
             {isFavorite && (
               <RemoveFromFavoriteButton favoriteId={favoriteFound.id} />
             )}
-
           </div>
 
         </div>

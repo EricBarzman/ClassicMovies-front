@@ -83,7 +83,6 @@ export function useFavorites() {
   return { addToFavorites, getUserFavorites, deleteFromFavorites }
 }
 
-
 export function useContactUs() {
 
   async function sendMessageToUs(data: DocumentData) {
@@ -95,4 +94,28 @@ export function useContactUs() {
   }
 
   return { sendMessageToUs }
+}
+
+export function useVotes() {
+
+  async function getOneUserVotes(userId: string) {
+    const ref = collection(db, "votes");
+    const snap = await getDocs(query(ref,
+      where("userId", "==", userId)
+    ))
+
+    if (snap.docs) {
+      return snap.docs.map(doc => Object.assign({}, { id: doc.id }, doc.data()));
+    }
+  }
+
+  async function sendVote(vote: DocumentData) {
+    const ref = collection(db, "votes");
+    return addDoc(ref, {
+      ...vote,
+      createdAt: Timestamp.fromDate(new Date())
+    })
+  }
+
+  return { getOneUserVotes, sendVote }
 }
