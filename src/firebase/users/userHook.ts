@@ -1,6 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, Timestamp, updateDoc, where, type DocumentData } from "firebase/firestore";
 import { db } from "../client";
-import { ISerializedUser, IAvatar } from "../../types/user.type";
+import { ISerializedUser, IAvatar, IVote } from "../../types/user.type";
 
 export function useUsersCollection() {
 
@@ -105,17 +105,22 @@ export function useVotes() {
     ))
 
     if (snap.docs) {
-      return snap.docs.map(doc => Object.assign({}, { id: doc.id }, doc.data()));
+      return snap.docs.map(doc => Object.assign({}, { id: doc.id }, doc.data())) as IVote[]
     }
   }
 
   async function sendVote(vote: DocumentData) {
     const ref = collection(db, "votes");
-    return addDoc(ref, {
+    return await addDoc(ref, {
       ...vote,
       createdAt: Timestamp.fromDate(new Date())
     })
   }
 
-  return { getOneUserVotes, sendVote }
+  async function updateVote(id: string, vote: DocumentData) {
+    const ref = doc(db, 'votes', id);
+    return updateDoc(ref, vote);
+  }
+
+  return { getOneUserVotes, updateVote, sendVote }
 }
