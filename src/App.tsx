@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux"
 import Favoris from "./pages/Favoris/Favoris"
 import Genre from "./pages/Genres/Genre"
 import MonCompte from "./pages/MyAccount/MyAccount"
+import Popular from "./pages/Popular/Popular"
 
 function App() {
 
@@ -55,7 +56,7 @@ function App() {
             <Route path="/parcourir/films" element={<AllMoviesPage />} />
             <Route path="/parcourir/films/:movie_id" element={<MoviePage />} />
             <Route path="/parcourir/genres" element={<Genre />} />
-            {/* <Route path="/parcourir/populaires" element={<div>Home</div>} /> */}
+            <Route path="/parcourir/populaires" element={<Popular />} />
             
             <Route path="/a-propos" element={<About />} />
             <Route path="/protection-donnees" element={<Privacy />} />

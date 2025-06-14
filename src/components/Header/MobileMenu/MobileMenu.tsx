@@ -36,6 +36,9 @@ function MobileMenu() {
           <DropdownItem className="mb-3" key="mon-compte">
             <Link to='/mes-favoris'>Favoris</Link>
           </DropdownItem>
+          <DropdownItem className="mb-3" key="mon-compte">
+            <Link to='/parcourir/populaires'>Populaires</Link>
+          </DropdownItem>
         </DropdownMenu>
 
       </Dropdown>

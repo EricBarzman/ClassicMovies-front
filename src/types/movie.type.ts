@@ -74,3 +74,21 @@ export interface ISingleMovieWithAllInfo {
   director: IDirector;
   youtube_url: string;
 }
+
+
+export interface IMovieWithVotes {
+  id: string;
+  title: string;
+  slug: string;
+  genreId: string;
+  decadeChoice: string;
+  get_image: string;
+  keywords: string[];
+  shortDescription: string;
+  keywordsList: IKeyword[];
+  year: number;
+  directorId: string;
+  director: IDirector;
+  youtube_url: string;
+  votes: number;
+}

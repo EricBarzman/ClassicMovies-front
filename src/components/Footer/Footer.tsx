@@ -10,8 +10,8 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-2 md:gap-3 justify-between mb-8">
           <Link to="/a-propos">A propos</Link>
           <Link to="/nous-contacter">Nous contacter</Link>
-          <Link to="/protection-donnees">Protection des données</Link>
-          <Link to="/termes-utilisation">Termes d'utilisation</Link>
+          {/* <Link to="/protection-donnees">Protection des données</Link> */}
+          {/* <Link to="/termes-utilisation">Termes d'utilisation</Link> */}
         </div>
 
         {/* Copyright */}

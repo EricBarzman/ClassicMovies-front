@@ -98,6 +98,12 @@ export function useContactUs() {
 
 export function useVotes() {
 
+  async function getAllVotes() {
+    const ref = collection(db, "votes");
+    const snap = await getDocs(ref);
+    return snap.docs.map(doc => Object.assign({}, { id: doc.id }, doc.data() as IVote));
+  }
+
   async function getOneUserVotes(userId: string) {
     const ref = collection(db, "votes");
     const snap = await getDocs(query(ref,
@@ -122,5 +128,5 @@ export function useVotes() {
     return updateDoc(ref, vote);
   }
 
-  return { getOneUserVotes, updateVote, sendVote }
+  return { getAllVotes, getOneUserVotes, updateVote, sendVote }
 }

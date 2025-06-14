@@ -22,9 +22,9 @@ function DesktopMenu() {
           <Link to='/parcourir/genres'>Genres</Link>
         </li>
 
-        {/* <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
-              <Link to='/parcourir/populaires'>Populaires</Link>
-            </li> */}
+        <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
+          <Link to='/parcourir/populaires'>Populaires</Link>
+        </li>
 
         <li className="mx-2 hover:text-gray-400 duration-500 transition-all">
           <Link to='/mes-favoris'>Favoris</Link>
