@@ -2,7 +2,7 @@ import React from 'react'
 
 function Information() {
   return (
-    <div>Information</div>
+    <div>Section en cours d'installation</div>
   )
 }
 
