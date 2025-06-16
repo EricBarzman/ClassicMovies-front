@@ -7,19 +7,21 @@ import {
   doc,
   getDoc,
   getDocs,
+  orderBy,
+  query,
   // orderBy,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../client";
 
-import {IGenre, ISingleMovieWithAllInfo, type IMovie } from "../../types/movie.type"
+import { ISingleMovieWithAllInfo, type IMovie } from "../../types/movie.type"
 
 
 export function useMovies() {
 
   const getMoviesWithDirectorInfo = async () => {
     const ref = collection(db, 'movies');
-    const snap = await getDocs(ref);
+    const snap = await getDocs(ref); // query(ref, orderBy('title')));
 
     // Get directors
     const refDirectors = collection(db, "directors");
