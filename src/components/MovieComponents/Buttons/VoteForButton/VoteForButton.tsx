@@ -47,7 +47,7 @@ function VoteForButton({ movieId }: { movieId: string }) {
     }
     if (type === "bad") {
       vote.value = -1;
-      message = "Vous avez démoli ce navet !";
+      message = "Vous avez voté contre ce film !";
     }
 
     try {
@@ -80,14 +80,21 @@ function VoteForButton({ movieId }: { movieId: string }) {
             onMouseLeave={() => setShowGenial(false)}
             onClick={() => handleVote("good")}
           />
-          {showGenial && <div className="absolute p-2 transform origin-bottom -translate-y-20 bg-gray-200 text-black rounded-md">Trop génial</div>}
+          {showGenial &&
+            <div className="absolute p-2 transform origin-bottom -translate-y-20 bg-gray-200 text-black rounded-md">
+              Génial
+            </div>}
 
           <FaRegThumbsDown className="relative cursor-pointer hover:text-gray-500 ml-6 rounded-full text-2xl"
             onMouseEnter={() => setShowMerde(true)}
             onMouseLeave={() => setShowMerde(false)}
             onClick={() => handleVote("bad")}
           />
-          {showMerde && <div className="absolute p-2 transform origin-bottom-right -translate-y-20 bg-gray-200 text-black rounded-md">De la merde</div>}
+          {showMerde &&
+            <div className="absolute p-2 transform origin-bottom-right -translate-y-20 bg-gray-200 text-black rounded-md">
+              Je n'aime pas
+            </div>
+          }
 
         </div>
       )}
