@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateEmail, getAuth } from 'firebase/auth';
 import { auth } from './client';
 import { useNavigate } from 'react-router-dom';
 import { useUsersCollection } from './users/userHook.ts';
@@ -20,7 +20,13 @@ export function useAuth() {
     return await createUserWithEmailAndPassword(auth, email, password);
   }
 
-  return { logout, login, signup }
+  async function updateEmailInFirebaseAuth(email: string) {
+    const user = getAuth().currentUser;
+    if (!user) throw new Error("Pas d'utilisateur sur Firebase");
+    return await updateEmail(user, email);
+  }
+
+  return { logout, login, signup, updateEmailInFirebaseAuth }
 }
 
 export const useOnAuthStateChanged = (
@@ -28,7 +34,7 @@ export const useOnAuthStateChanged = (
 ) => {
 
   const { getUser } = useUsersCollection();
-  
+
   useEffect(() => {
     auth.onAuthStateChanged(nexOrObserver => {
       if (nexOrObserver) {

@@ -1,14 +1,9 @@
 import { Link, useParams } from "react-router-dom"
-import { useEffect, useState } from "react";
-
-import { useUsersCollection } from "../../firebase/users/userHook";
-import { useTypedSelector } from "../../redux/redux.type";
 
 import { accountOptions } from "../../constants/accountOptions";
 
 import Profile from "../../components/Account/Profile/Profile";
 import Avatar from "../../components/Account/Avatar/Avatar";
-import Information from "../../components/Account/Information/Information";
 
 
 function MonCompte() {
@@ -42,7 +37,6 @@ function MonCompte() {
             <div className='w-2/3'>
                 {option === "profile" && <Profile />}
                 {option === "avatar" && <Avatar />}
-                {option === "information" && <Information />}
             </div>
           </div>
 

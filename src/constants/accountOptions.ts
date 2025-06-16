@@ -9,9 +9,4 @@ export const accountOptions = [
     label: "Avatar",
     slug: "avatar",
   },
-  {
-    id: 3,
-    label: "Information",
-    slug: "information",
-  },
 ];
