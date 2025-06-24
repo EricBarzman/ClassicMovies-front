@@ -10,10 +10,13 @@ import MovieVideo from "../../components/MovieComponents/MovieVideo/MovieVideo"
 import MoviesList from "../../components/MovieComponents/MoviesList/MoviesList";
 
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
+import { useLocation } from "react-router-dom";
 
 function Home() {
 
-  const user = useTypedSelector((state) => state.user)
+  const user = useTypedSelector((state) => state.user);
+  const location = useLocation();
+  
   const [randomMovie, setRandomMovie] = useState<IMovie>({
     id: "",
     title: "",
@@ -27,7 +30,7 @@ function Home() {
     year: 0,
     directorId: "",
     director: {
-      id: 0,
+      id: "",
       firstName: "",
       lastName: "",
       countryId: ""
@@ -53,7 +56,7 @@ function Home() {
     // Pick a random index then a random film in the movies array
     const newIndex = Math.round(Math.random() * movies.length);
     setRandomMovie(movies[newIndex]);
-  }, [movies])
+  }, [movies, location])
 
   return (
     <main className='text-white px-10 py-4 relative'>

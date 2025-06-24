@@ -1,6 +1,6 @@
 
 export interface IDirector {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   countryId: string;

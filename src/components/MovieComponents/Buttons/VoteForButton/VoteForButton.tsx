@@ -42,12 +42,12 @@ function VoteForButton({ movieId }: { movieId: string }) {
     let message = "";
 
     if (type === "good") {
-      vote.value = 1;
-      message = "Vous avez soutenu ce film !"
+      vote.value = messageVote.goodValue;
+      message = messageVote.goodMessage
     }
     if (type === "bad") {
-      vote.value = -1;
-      message = "Vous avez voté contre ce film !";
+      vote.value = messageVote.badValue;
+      message = messageVote.badMessage;
     }
 
     try {

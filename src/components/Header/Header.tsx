@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import BurgerMenu from "./BurgerMenu/BurgerMenu";
 import MobileMenu from "./MobileMenu/MobileMenu";
 import DesktopMenu from "./DesktopMenu/DesktopMenu";
+import SearchField from "./SearchField/SearchField";
 
 function Header() {
 
@@ -31,7 +32,7 @@ function Header() {
         {isMobile && (<MobileMenu />)}
 
         <div className="flex items-center">
-          {/* <div className="mr-8">Chercher...</div> */}
+          <SearchField />
           <BurgerMenu />
         </div>
 

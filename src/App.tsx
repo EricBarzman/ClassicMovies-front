@@ -20,6 +20,7 @@ import Favoris from "./pages/Favoris/Favoris"
 import Genre from "./pages/Genres/Genre"
 import MonCompte from "./pages/MyAccount/MyAccount"
 import Popular from "./pages/Popular/Popular"
+import Search from "./pages/Search/Search"
 
 function App() {
 
@@ -51,6 +52,8 @@ function App() {
             <Route path="/mon-compte" element={<MonCompte />} />
             <Route path="/mon-compte/:option" element={<MonCompte />} />
             
+            <Route path="/search" element={<Search />} />
+
             <Route path="/mes-favoris" element={<Favoris />} />
             {/* <Route path="/chercher" element={<div>Home</div>} /> */}
             <Route path="/parcourir/films" element={<AllMoviesPage />} />

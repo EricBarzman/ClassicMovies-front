@@ -5,11 +5,12 @@ import {
   collection,
   deleteDoc,
   doc,
+  endAt,
   getDoc,
   getDocs,
   orderBy,
   query,
-  // orderBy,
+  startAt,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../client";
@@ -52,6 +53,48 @@ export function useMovies() {
     ));
   };
 
+
+  const getMoviesFromSearchInput = async (input: string) => {
+    console.log(input)
+    const ref = collection(db, 'movies');
+    const snap = await getDocs(query(
+      ref,
+      orderBy('title'),
+      startAt(input.toUpperCase()),
+      endAt(input.toLowerCase() + "\uf8ff"),
+    ));
+
+    // Get directors
+    const refDirectors = collection(db, "directors");
+    const snapDirectors = await getDocs(refDirectors);
+    const directorList = snapDirectors.docs.map(doc => Object.assign(
+      {},
+      { id: doc.id },
+      doc.data()
+    ))
+
+    // Get keywords
+    const refKeywords = collection(db, 'keywords');
+    const snapKeywords = await getDocs(refKeywords);
+    const keywordsList = snapKeywords.docs.map(doc => Object.assign(
+      {},
+      { id: doc.id },
+      doc.data() as IMovie
+    ))
+    
+    return snap.docs.slice(0, 5).map(doc => Object.assign(
+      {},
+      {
+        id: doc.id,
+        director: directorList.find(director => director.id === doc.data().directorId),
+        keywordsList: keywordsList.filter(kword => doc.data().keywords.includes(kword.id))
+      },
+      doc.data() as IMovie,
+    ));
+  };
+
+
+
   const getMovieByIdWithAllInfo = async (id: string) => {
     const ref = doc(db, 'movies', id);
     const snap = await getDoc(ref);
@@ -59,10 +102,10 @@ export function useMovies() {
     // Get all external attributes --eg join--
     const refDirector = doc(db, "directors", snap.data()!.directorId)
     const director = await getDoc(refDirector);
-    
+
     const refGenre = doc(db, "genres", snap.data()!.genreId)
     const genre = await getDoc(refGenre);
-    
+
     const refCountry = doc(db, "countries", snap.data()!.countryId)
     const country = await getDoc(refCountry);
 
@@ -113,6 +156,7 @@ export function useMovies() {
 
   return {
     getMoviesWithDirectorInfo,
+    getMoviesFromSearchInput,
     getMovieByIdWithAllInfo,
     createMovie,
     updateMovie,
