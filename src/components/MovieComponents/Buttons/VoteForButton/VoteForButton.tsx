@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useTypedSelector } from "../../../../redux/redux.type";
-
 import toast from "react-hot-toast";
-import { FaRegThumbsUp } from "react-icons/fa6";
-import { FaRegThumbsDown } from "react-icons/fa6";
+
+import { useTypedSelector } from "../../../../redux/redux.type";
 import { useVotes } from "../../../../firebase/users/userHook";
 import { IVote } from "../../../../types/user.type";
 
+import { FaRegThumbsUp } from "react-icons/fa6";
+import { FaRegThumbsDown } from "react-icons/fa6";
+
+import { messageVote } from "../../../../constants/messagesVote"
 
 function VoteForButton({ movieId }: { movieId: string }) {
 
@@ -30,7 +32,6 @@ function VoteForButton({ movieId }: { movieId: string }) {
   useEffect(() => {
     findUserVotes();
   }, [])
-
 
   const handleVote = async (type: "good" | "bad") => {
 

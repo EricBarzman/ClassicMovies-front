@@ -11,24 +11,31 @@ import AddToMyFavoriteButton from "../../components/MovieComponents/Buttons/AddT
 import RemoveFromFavoriteButton from "../../components/MovieComponents/Buttons/RemoveFromFavoriteButton/RemoveFromFavoriteButton";
 import LoadingSpinner from "../../components/Loading/LoadingSpinner";
 import VoteForButton from '../../components/MovieComponents/Buttons/VoteForButton/VoteForButton';
+import { IVote } from "../../types/user.type";
+import { useVotes } from "../../firebase/users/userHook";
+import { shuffleArr } from "../../utils/shuffleArray";
 
 
 function MoviePage() {
 
-  const [movie, setMovie] = useState<ISingleMovieWithAllInfo>()
+  const [movie, setMovie] = useState<ISingleMovieWithAllInfo>();
   const movieId = useParams().movie_id!;
-  
+
+  const [votesForMovie, setVotesForMovie] = useState<IVote[]>([]);
+
   const favorites = useTypedSelector(state => state.favorites.mesFavoris);
   const favoriteFound = favorites.find(fav => fav.movieId === movieId);
   const isFavorite = favoriteFound !== undefined;
 
   const { getMovieByIdWithAllInfo } = useMovies();
-
-  const [showVoteModal, setShowVoteModal] = useState(false);
-
+  const { getVotesForOneMovie } = useVotes();
 
   useEffect(() => {
     getMovieByIdWithAllInfo(movieId).then(data => setMovie(data));
+    getVotesForOneMovie(movieId).then(data => {
+      shuffleArr(data);
+      setVotesForMovie(data)
+    });
   }, [])
 
   useEffect(() => {
@@ -60,13 +67,15 @@ function MoviePage() {
               <RemoveFromFavoriteButton favoriteId={favoriteFound.id} />
             )}
 
-            <VoteForButton movieId={movie.id}/>
+            <VoteForButton movieId={movie.id} />
           </div>
 
           {/* Information */}
           <div className="w-full md:w-1/2">
-            <div className="flex justify-between">
 
+            <div className="flex justify-between mb-6">
+
+              {/* Encart à gauche */}
               <div>
                 <p className="text-gray-400 mb-3">
                   {movie.director.firstName} {movie.director.lastName}
@@ -80,28 +89,32 @@ function MoviePage() {
                 <p className="text-sm mt-5">{movie.shortDescription}</p>
               </div>
 
+              {/* Encart à droite */}
               <div className="mr-4">
                 <p><span className="text-gray-500">Genre :</span> {movie.genre.label}</p>
                 <p className="mb-3"><span className="text-gray-500">Country:</span> {movie.country.name}</p>
               </div>
 
             </div>
+
+            {/* Votes */}
+            {/* <div>
+              <h3 className="font-semibold text-gray-400">Votes du public</h3>
+              <p className="text-sm ">
+                Note globale: <span>{votesForMovie.reduce((acc, curr) => acc += curr.value, 0)}</span>
+              </p>
+
+            </div> */}
           </div>
 
         </div>
 
         {/* Reviews */}
-        {/* {movie.votes && (
-            <div className="pl-10 mt-10 w-1/3">
-
-                <h2 className="text-gray-400 mb-3">Ratings</h2>
-
-                {movie.votes.slice(0,3).map((vote) => (
-                    <CommentCard key={vote.id} vote={vote} />
-                ))}
-                
-            </div>
-            )} */}
+        {/* {votesForMovie.length > 0 && (
+          votesForMovie.slice(0, 5).map((vote) => (
+            <CommentCard key={vote.id} vote={vote} />
+          ))
+        )} */}
 
       </section>
 

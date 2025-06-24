@@ -115,6 +115,15 @@ export function useVotes() {
     }
   }
 
+  async function getVotesForOneMovie(movieId: string) {
+    const ref = collection(db, "votes");
+    const snap = await getDocs(query(
+      ref,
+      where("movieId", "==", movieId)
+    ));
+    return snap.docs.map(doc => Object.assign({}, { id: doc.id }, doc.data())) as IVote[]
+  }
+
   async function sendVote(vote: DocumentData) {
     const ref = collection(db, "votes");
     return await addDoc(ref, {
@@ -128,5 +137,5 @@ export function useVotes() {
     return updateDoc(ref, vote);
   }
 
-  return { getAllVotes, getOneUserVotes, updateVote, sendVote }
+  return { getAllVotes, getOneUserVotes, getVotesForOneMovie, updateVote, sendVote }
 }
