@@ -5,16 +5,16 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../../../redux/features/user";
 import { useTypedSelector } from "../../../redux/redux.type";
 
+import { type FormDataProp } from "../../../types/auth.type";
+import { useAuth } from "../../../firebase/auth";
+import { useAvatars, useUsersCollection } from "../../../firebase/users/userHook";
+import type { IAvatar } from "../../../types/user.type";
 
 // UI
 import { Button } from "@heroui/button";
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
+import { GoArrowLeft } from "react-icons/go";
 
-import { type FormDataProp } from "../../../types/auth.type";
-
-import { useAuth } from "../../../firebase/auth";
-import { useAvatars, useUsersCollection } from "../../../firebase/users/userHook";
-import type { IAvatar, ISerializedUser } from "../../../types/user.type";
 
 const defaultFormData: FormDataProp = {
   email: "",
@@ -137,7 +137,7 @@ function Signup() {
   }
 
   return (
-    <div className="p-12 md:w-3/4 mx-auto">
+    <div className="p-12 md:w-3/4 mx-auto flex flex-col items-center">
 
       <h2 className="md:text-4xl text-2xl mt-10 mb-10 text-center font-semibold uppercase">
         Créer votre profile
@@ -227,6 +227,15 @@ function Signup() {
         <span className="underline text-white ml-4">
           <Link to="/connexion">Se connecter</Link>
         </span>
+      </div>
+
+      <div className="mt-16 inline-block">
+        <Link className="text-lg flex items-center hover:underline hover:text-gray-300" to="/">
+          <span>
+            <GoArrowLeft className="text-xl mr-2" />
+          </span>
+          Retour accueil
+        </Link>
       </div>
     </div>
   )

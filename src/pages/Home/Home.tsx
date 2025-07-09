@@ -16,7 +16,7 @@ function Home() {
 
   const user = useTypedSelector((state) => state.user);
   const location = useLocation();
-  
+
   const [randomMovie, setRandomMovie] = useState<IMovie>({
     id: "",
     title: "",
@@ -61,9 +61,17 @@ function Home() {
   return (
     <main className='text-white px-10 py-4 relative'>
 
-      <h2 className='mt-6 ml-10 mb-20 text-xl md:text-4xl font-semibold'>
-        Content de vous voir, {user.username} !
-      </h2>
+      {user.username && (
+        <h2 className='mt-6 ml-10 mb-20 text-xl md:text-4xl font-semibold'>
+          Content de vous revoir, {user.username} !
+        </h2>
+      )}
+
+      {!user.username && (
+        <h2 className='mt-6 ml-10 mb-20 text-xl md:text-4xl font-semibold'>
+          Un catalogue sans fond !
+        </h2>
+      )}
 
       {randomMovie?.youtube_url && (
         <MovieVideo youtube_id={randomMovie?.youtube_url!} />

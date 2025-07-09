@@ -10,6 +10,7 @@ import RemoveFromFavoriteButton from '../Buttons/RemoveFromFavoriteButton/Remove
 
 function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
 
+  const user = useTypedSelector(state => state.user);
   const favorites = useTypedSelector(state => state.favorites.mesFavoris);
   const favoriteFound = favorites.find(fav => fav.movieId === movie.id); 
   const isFavorite = favoriteFound !== undefined; 
@@ -42,11 +43,11 @@ function MoviePreviewCard({ movie }: { movie: IMovie, isShown: boolean }) {
               <FaPlay className='mr-6 text-2xl transition duration-75 hover:text-gray-400' />
             </Link>
 
-            {!isFavorite && (
+            {user.logged && !isFavorite && (
               <AddToFavoriteButton movieId={movie.id} />
             )}
 
-            {isFavorite && (
+            {user.logged && isFavorite && (
               <RemoveFromFavoriteButton favoriteId={favoriteFound.id} />
             )}
           </div>

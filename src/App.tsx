@@ -29,10 +29,10 @@ function App() {
   const user = useTypedSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  // Redirect to login
+  // Get favorites
   useEffect(() => {
-    if (!user.token || !user.logged) navigate("/connexion");
-    dispatch({ type: 'FETCH_FAVORITES' });
+    if (user.token )
+      dispatch({ type: 'FETCH_FAVORITES' });
   }, [])
 
   return (
@@ -52,10 +52,9 @@ function App() {
             <Route path="/mon-compte" element={<MonCompte />} />
             <Route path="/mon-compte/:option" element={<MonCompte />} />
             
-            <Route path="/search" element={<Search />} />
+            <Route path="/chercher" element={<Search />} />
 
             <Route path="/mes-favoris" element={<Favoris />} />
-            {/* <Route path="/chercher" element={<div>Home</div>} /> */}
             <Route path="/parcourir/films" element={<AllMoviesPage />} />
             <Route path="/parcourir/films/:movie_id" element={<MoviePage />} />
             <Route path="/parcourir/genres" element={<Genre />} />

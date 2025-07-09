@@ -23,6 +23,7 @@ function MoviePage() {
 
   const [votesForMovie, setVotesForMovie] = useState<IVote[]>([]);
 
+  const user = useTypedSelector(state => state.user);
   const favorites = useTypedSelector(state => state.favorites.mesFavoris);
   const favoriteFound = favorites.find(fav => fav.movieId === movieId);
   const isFavorite = favoriteFound !== undefined;
@@ -59,15 +60,16 @@ function MoviePage() {
           <div className="flex items-center mb-6 text-xl">
 
             {/* Add to favorites */}
-            {!isFavorite && (
+            {user.logged && !isFavorite && (
               <AddToMyFavoriteButton movieId={movieId} />
             )}
 
-            {isFavorite && (
+            {user.logged && isFavorite && (
               <RemoveFromFavoriteButton favoriteId={favoriteFound.id} />
             )}
 
-            <VoteForButton movieId={movie.id} />
+            {/* Rate movie */}
+            {user.logged && <VoteForButton movieId={movie.id} />}
           </div>
 
           {/* Information */}

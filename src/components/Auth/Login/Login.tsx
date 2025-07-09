@@ -18,6 +18,7 @@ import { AlertCircle, Eye, EyeOff } from "lucide-react";
 import { useTypedSelector } from "../../../redux/redux.type";
 import { updateUser } from "../../../redux/features/user";
 import { useUsersCollection } from "../../../firebase/users/userHook";
+import { GoArrowLeft } from "react-icons/go";
 
 
 const Login = () => {
@@ -52,7 +53,7 @@ const Login = () => {
 
     try {
       const result = await login(data.identifier, data.password);
-      
+
       if (!result.user) {
         console.error("Echec à se connecter : ", result);
         setAuthError("Une erreur s'est produite, merci de réesayer.");
@@ -60,7 +61,7 @@ const Login = () => {
 
       const firebaseId = result.user.uid;
       const userInfo = await getUserByFirebaseId(firebaseId);
-      
+
       dispatch(updateUser({
         email: result.user.email,
         username: userInfo?.username,
@@ -79,12 +80,13 @@ const Login = () => {
   }
 
   return (
-    <div className="p-12 md:w-3/4 mx-auto">
+    <div className="p-12 md:w-3/4 mx-auto flex flex-col items-center">
+      
       <h2 className="md:text-4xl text-2xl mt-10 mb-10 text-center font-semibold uppercase">SE RECONNECTER</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
 
-        <div className='flex flex-col mx-auto md:w-1/3'>
+        <div className='flex flex-col'>
 
           {authError && (
             <div className="mx-auto bg-danger-50 text-danger-700 p-4 roundeg-lg mb-12 flex items-center gap-2">
@@ -138,6 +140,15 @@ const Login = () => {
 
       <div className="text-gray-500 text-center mt-10">
         Pas de compte ? <span className="underline text-white ml-4"><Link to="/enregistrement">Créer un compte</Link></span>
+      </div>
+
+      <div className="mt-16 inline-block">
+        <Link className="text-lg flex items-center hover:underline hover:text-gray-300" to="/">
+          <span>
+            <GoArrowLeft className="text-xl mr-2" />
+          </span>
+          Retour accueil
+        </Link>
       </div>
     </div>
   )

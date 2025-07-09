@@ -15,7 +15,7 @@ function SearchField() {
     if (searchInput.length < 2) return;
 
     setSearchParams({ input: searchInput })
-    navigate(`/search?input=${searchInput}`);
+    navigate(`/chercher?input=${searchInput}`);
     
     // const params = new URLSearchParams("search");
     // params.set("input", searchInput);

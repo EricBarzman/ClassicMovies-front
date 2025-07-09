@@ -4,14 +4,21 @@ import { IMovie } from '../../types/movie.type'
 import { useMovies } from '../../firebase/movies/movieHooks';
 import { useTypedSelector } from '../../redux/redux.type';
 import MoviesList from '../../components/MovieComponents/MoviesList/MoviesList';
+import { useNavigate } from 'react-router-dom';
 
 function Favoris() {
 
   const [favoriteMovies, setFavoriteMovies] = useState<IMovie[]>([]);
   const { getMoviesWithDirectorInfo } = useMovies();
+  const user = useTypedSelector(state => state.user);
   const favorites = useTypedSelector(state => state.favorites);
+
+  const navigate = useNavigate();
   
   useEffect(() => {
+    if (!user.token)
+      navigate("/connexion");
+    
     window.scroll(0, 0);
     document.title = 'Favoris | Classic Movies';    
     getMoviesWithDirectorInfo().then(list => {

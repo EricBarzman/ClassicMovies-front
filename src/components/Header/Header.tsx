@@ -4,10 +4,16 @@ import BurgerMenu from "./BurgerMenu/BurgerMenu";
 import MobileMenu from "./MobileMenu/MobileMenu";
 import DesktopMenu from "./DesktopMenu/DesktopMenu";
 import SearchField from "./SearchField/SearchField";
+import { useTypedSelector } from "../../redux/redux.type";
+
+import { VscAccount } from "react-icons/vsc";
+import { Link } from "react-router-dom";
 
 function Header() {
 
   const [isMobile, setIsMobile] = useState(false);
+
+  const user = useTypedSelector(state => state.user);
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,8 +38,19 @@ function Header() {
         {isMobile && (<MobileMenu />)}
 
         <div className="flex items-center">
+          
           <SearchField />
-          <BurgerMenu />
+          
+           {/* Menu utilisateur */}
+          {user.logged && <BurgerMenu />}
+
+          {/* Connexion */}
+          {!user.logged && (
+            <Link to="/connexion">
+              <VscAccount className="text-4xl hover:text-gray-500 duration-200"/>
+            </Link>
+          )}
+
         </div>
 
       </nav>
